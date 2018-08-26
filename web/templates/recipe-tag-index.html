@@ -35,7 +35,7 @@
                     </div>
                     <nav id="the-main-menu" class="main-menu-nav menu-inline" data-breakpoint="1160">
                         <ul class="menu horizontal">
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="/">Home</a></li>
                             <li>
                                 <a href="recipes.html">Recipes</a>
                                 <ul class="sub-menu">
@@ -305,91 +305,129 @@
                                 <span class="control inline active"><i class="fa fa-th"></i></span>
                             </div>
                         </div>
+
+
                         <div class="col-12 row rw-row">
-                        <input type="text" class="fullwidth filter-keywords" placeholder="질병을 선택하세요"/>
-                        <submit class="btn btn-primary btn-md btn-block" type="submit">
-                                    Send
-                                </submit>
+                            <form class='form-horizontal col-12' role='form' id='find' method="POST"  action={{ url_for("query") }}>
+                                <input type="text" class="fullwidth filter-keywords" id="tokenin" name="search"
+                                       placeholder="질병을 선택하세요"/>
+                                <button class="btn btn-primary btn-md btn-block" type="button" data-toggle="modal"
+                                        data-target="#modal" id="search">
+                                    검색
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Modal -->
+                        <div id="modal" class="modal fade" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content" style="width:548px">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">먹고 싶은 음식이 있으세요??</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" style="height:200px; width:540px">
+
+                                        <button type="button" class="btn btn-secondary btn-lg" id="ok"
+                                                style="width:250px; height:150px">먹고싶은 음식이 있다
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-lg" id="no"
+                                                style="width:250px; height:150px">먹고싶은 음식이 없다
+                                        </button>
+                                    </div>
+
+                                </div>
                             </div>
+                        </div>
+
+
+                        <div class="keywords-index-list">
+                            <h4>질병명</h4>
+                            <ul class="keywords">
+                                {% for name in nameList %}
+                                    {#                            <li><a href="#">구루병식</a></li>#}
+                                    {#                            <li><a href="#">Acorn Squash <em>1</em></a></li>#}
+                                    <li><a href="#"><img src="{{ disease[name] }}" width="150px"
+                                                         height="150px" style="text-align: center"><br>{{ name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div> <!-- .recipe-index-list -->
+
+                    </div> <!-- .rw-row -->
+
+                </div> <!-- .rw-content -->
+
+            </div> <!-- .rw-inner -->
+        </div> <!-- .rw-container -->
+
+        <!--
+        // ===================================^__^=================================== //
+           Footer
+        // ===================================^__^=================================== //
+        -->
+        <div class="rw-section rw-footer">
+            <div class="rw-inner clearfix">
+                <div class="grid-container">
+
+                    <div class="grid desk-6">
+                        <div class="footer-totals clearfix">
+
+                            <div class="total red clearfix">
+                                <a href="recipes.php">
+                                    <span class="mark value">13472</span>
+                                    <span class="type">Recipes</span>
+                                </a>
+                            </div>
+
+                            <div class="total green clearfix">
+                                <a href="members.php">
+                                    <span class="mark value">5649</span>
+                                    <span class="type">Members</span>
+                                </a>
+                            </div>
+
+                            <div class="total blue clearfix">
+                                <a href="public-collections.php">
+                                    <span class="mark value">728</span>
+                                    <span class="type">Collections</span>
+                                </a>
+                            </div>
+
+                        </div>
                     </div>
 
-                    <div class="keywords-index-list">
-                        <h4>질병명</h4>
-                        <ul class="keywords">
-                            {% for name in nameList %}
-{#                            <li><a href="#">구루병식</a></li>#}
-{#                            <li><a href="#">Acorn Squash <em>1</em></a></li>#}
-                            <li><a href="#"><img src="{{ disease[name] }}" width="150px" height="150px"><br>{{ name }}</a></li>
-                           {% endfor %}
-                        </ul>
-                    </div> <!-- .recipe-index-list -->
-
-                </div> <!-- .rw-row -->
-
-            </div> <!-- .rw-content -->
-
-        </div> <!-- .rw-inner -->
-    </div> <!-- .rw-container -->
-
-    <!--
-    // ===================================^__^=================================== //
-       Footer
-    // ===================================^__^=================================== //
-    -->
-    <div class="rw-section rw-footer">
-        <div class="rw-inner clearfix">
-            <div class="grid-container">
-
-                <div class="grid desk-6">
-                    <div class="footer-totals clearfix">
-
-                        <div class="total red clearfix">
-                            <a href="recipes.php">
-                                <span class="mark value">13472</span>
-                                <span class="type">Recipes</span>
-                            </a>
+                    <div class="grid desk-6">
+                        <div class="footer-menu">
+                            <ul>
+                                <li><a href="#">Terms</a></li>
+                                <li><a href="#">Privacy</a></li>
+                                <li><a href="#">Copyright</a></li>
+                                <li><a href="#">About</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
                         </div>
-
-                        <div class="total green clearfix">
-                            <a href="members.php">
-                                <span class="mark value">5649</span>
-                                <span class="type">Members</span>
-                            </a>
-                        </div>
-
-                        <div class="total blue clearfix">
-                            <a href="public-collections.php">
-                                <span class="mark value">728</span>
-                                <span class="type">Collections</span>
-                            </a>
-                        </div>
-
                     </div>
+
                 </div>
-
-                <div class="grid desk-6">
-                    <div class="footer-menu">
-                        <ul>
-                            <li><a href="#">Terms</a></li>
-                            <li><a href="#">Privacy</a></li>
-                            <li><a href="#">Copyright</a></li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Contact</a></li>
-                        </ul>
-                    </div>
-                </div>
-
+                <a href="#rw-layout" class="footer-to-top" title="Go to top">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
             </div>
-            <a href="#rw-layout" class="footer-to-top" title="Go to top">
-                <i class="fa fa-chevron-up"></i>
-            </a>
-        </div>
-    </div> <!-- .layout-footer -->
+        </div> <!-- .layout-footer -->
 
 </section><!-- .rw-layout -->
 
 <!-- Javascript -->
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="../static/assets/js/bootstrap.min.js" type="text/javascript"></script>
+
 <script src="../static/assets/js/min/smk-menu.min.js"></script>
 <script src="../static/assets/js/rw-sidebar.js"></script>
 <script src="../static/assets/js/min/jquery.qtip.min.js"></script>
@@ -404,31 +442,29 @@
 <script type="text/javascript">
 
 
-	function smk_theme_keyword_index_filter(elem) {
-		console.log('elem filter : ' + elem); // TODO index_fileter0
-		var value    = $(elem).val().toLowerCase(),
-		    headings = $('.keywords-index-list h4');
-		console.log('value index filter : ' + value); // TODO index_fileter
-		// Hide or show headings
-		value.length > 0 ? headings.hide() : headings.show();
+    function smk_theme_keyword_index_filter(elem) {
+        console.log('elem filter : ' + elem); // TODO index_fileter0
+        var value = $(elem).val().toLowerCase(),
+            headings = $('.keywords-index-list h4');
+        console.log('value index filter : ' + value); // TODO index_fileter
+        // Hide or show headings
+        value.length > 0 ? headings.hide() : headings.show();
 
-		// Hide or show keywords
-		$(".keywords-index-list li").each(function() {
-			$(this).text().toLowerCase().search(value) > -1 ? $(this).removeClass('hide-keyword') : $(this).addClass('hide-keyword');
-		});
-	}
+        // Hide or show keywords
+        $(".keywords-index-list li").each(function () {
+            $(this).text().toLowerCase().search(value) > -1 ? $(this).removeClass('hide-keyword') : $(this).addClass('hide-keyword');
+        });
+    }
 
     function cauClick() {
         {#console.log("clickkk");#}
         {#console.log(this);#}
-        console.log($( '.token-input fullwidth filter-keywords' ));
 
-        $( '.token-input fullwidth filter-keywords' ).removeClass( 'fullwidth filter-keywords' );
         console.log(this.text);
-        $(".filter-keywords").tokenfield();
-        $(".filter-keywords").tokenfield('createToken', this.text);
+        $("#tokenin").tokenfield();
+        $("#tokenin").tokenfield('createToken', this.text);
 
-        $(".filter-keywords").on('tokenfield:createtoken', function (event) {
+        $("#tokenin").on('tokenfield:createtoken', function (event) {
             var existingTokens = $(this).tokenfield('getTokens');
             $.each(existingTokens, function (index, token) {
                 if (token.value === event.attrs.value)
@@ -436,15 +472,20 @@
             });
         });
         // TODO 또 추가
-        console.log(document.getElementsByClassName('token-input')[0]);
-        console.log($('.token-input'));
-        $('.token-input').on('keyup', function () {
+        console.log($('#tokenin'));
+        $('#tokenin').on('keyup', function () {
             console.log('token-input'); // TODO filter-keywords
-            smk_theme_keyword_index_filter(document.getElementsByClassName('token-input')[0]);
+            smk_theme_keyword_index_filter(document.getElementById("tokenin"));
         });
 
-        $( '.token-input' ).addClass( 'fullwidth filter-keywords' );
-        console.log($( '.token-input' ));
+        $('#tokenin-tokenfield').on('keyup', function () {
+            console.log('tokenin-tokenfield'); // TODO filter-keywords
+            smk_theme_keyword_index_filter(document.getElementById("tokenin-tokenfield"));
+        });
+
+
+        {#$('.token-input').addClass('fullwidth filter-keywords');#}
+        console.log($("#tokenin"));
 
     }
 
@@ -459,6 +500,46 @@
 
 
     }
+</script>
+
+<script>
+    $("#ok").on('click', function () {
+
+        var form = document.getElementById("find");
+
+        //input
+        var input_id = document.createElement("input");
+
+        input_id.setAttribute("type", "hidden");
+        input_id.setAttribute("name", "choice");
+        input_id.setAttribute("value", "1");
+
+        form.appendChild(input_id);
+
+        //폼전송
+
+        form.submit();
+    });
+
+    $("#no").on('click', function () {
+
+        var form = document.getElementById("find");
+
+        //input
+        var input_id = document.createElement("input");
+
+        input_id.setAttribute("type", "hidden");
+        input_id.setAttribute("name", "choice");
+        input_id.setAttribute("value", "2");
+
+        form.appendChild(input_id);
+
+        //폼전송
+
+        form.submit();
+    });
+
+
 </script>
 </body>
 </html>

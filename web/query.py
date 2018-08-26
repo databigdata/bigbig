@@ -70,6 +70,7 @@ def query(dname1):  # 질병 하나 계싼
             q = bul_count / total_leng
             r = 1 - p - q
             #     print(count)
+
             dic[recipe_name] = {'권장률': p, '위험률': q, '추천지수': p - q}
 
             if p > 1:
@@ -177,9 +178,6 @@ def getRecommend(dname):  # 특정 메뉴의 권장/주의 식품 리턴
     return d['권장식품'], d['주의식품']
 
 
-def getRecipeAll():  # 보류
-    db = connection.recipeDB2
-    return
 
 
 def getRecipe(fname):  # 특정 메뉴의 데이터를 읽어옴 single-recipe에서 레시피 보여줄 때 사용
@@ -188,7 +186,7 @@ def getRecipe(fname):  # 특정 메뉴의 데이터를 읽어옴 single-recipe�
     print(fname)
 
     data = recipe.find({'food_name': {'$eq': fname}})
-    print(data)
+    # print(data)
     print(data.count())
     data = data.next()
     print(data)
@@ -204,7 +202,7 @@ def selectFood(fnames, dic):
     for i in dic:
         for j in fnames:
             if j in i:
-                print('func', i)
+                # print('func', i)
                 result[i] = dic[i]
 
     return result
@@ -276,3 +274,18 @@ def selectIngre(plus_ingredient, minus_ingredient, dic):
 
 
     return newDict
+
+
+def getRecipeAll():
+    db = connection.recipeDB2
+    recipe = db.recipe
+    v = 0
+    temp = recipe.find()
+    print('getRecipeAll : ', temp.count())
+    result = []
+
+    for i in temp:
+        result.append(i)
+
+
+    return result
