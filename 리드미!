@@ -16,3 +16,9 @@
 4. 히트맵 추가
 5. 전체적으로 다듬기
 
+mongoDB에 데이터 import 해야함
+recipeDB
+disease.json -> disease
+food.json -> food
+recipe.json -> recipe
+(프로젝트루트 폴더에 있음)
