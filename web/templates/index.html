@@ -122,6 +122,7 @@
             <!-- Main content -->
             <div class="rw-section rw-container right-sidebar">
                 <!-- TODO 여기다가 히트맵 추가 -->
+            {% if img_rul != "" %}
                     {% if dname %}
                         <h4>{{ dname }} 에 대한 선택한 음식별 평균 추천지수 비교</h4>
                     {% elif dname1 %}
@@ -131,7 +132,7 @@
                 <div class="rw-column">
                     <img src="data:image/jpeg;base64, {{ img_url }}" style="width:480px; height:360px">
                 </div>
-
+            {% endif %}
                 <div class="rw-column">
                     {% for item in disease %}
                         {% for k, v in item.items() %}

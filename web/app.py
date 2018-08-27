@@ -299,7 +299,6 @@ def query():
 
                 disease=[]
                 disease.append(getDisease(data[0])) # 질병정보 읽어오기
-                print('disease : ', disease)
 
 
 
@@ -341,7 +340,7 @@ def query():
                 disease = []
                 for name in data:
                     disease.append(getDisease(name))  # 질병정보 읽어오기
-                print('disease : ', disease)
+                # print('disease : ', disease)
 
 
 
@@ -448,4 +447,4 @@ def query():
 
 if __name__ == '__main__':
     print('main')
-    app.run()
+    app.run(host='210.115.47.25')
