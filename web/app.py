@@ -1,17 +1,46 @@
 from flask import Flask, render_template, request, session, make_response
+from matplotlib import rc, font_manager
+import io
+import base64
+
+
 
 app = Flask(__name__)
 
 # TODO 메뉴 레시피 화면
 @app.route('/recipe', methods=['get'])
 def showRecipe():
-    from query import getRecipe
+    from query import getRecipe, index_dic
+    from recommend import fin_recommend
+    import pickle
     a = request.args
     name = a['value']
     print(name)
     q = getRecipe(name)
+
     ingredient = q['ingredient']
-    return render_template('single-recipe.html', menu=name, ingredient=ingredient)
+    description = q['description']
+    img = q['img']
+
+    a = request.cookies.get('a')
+    data = a.split(', ')
+    print('data len', len(data))
+    if len(data) == 1:
+        with open("pickles/" + str(index_dic[data[0]]) + ".pickle", 'rb') as f:
+            dic = pickle.load(f)
+    else :
+        with open("pickles/" + str(index_dic[data[0]]) + ".pickle", 'rb') as f:
+            dic = pickle.load(f)
+
+    result = fin_recommend(dic, name)
+    data = dict()
+    print('result', result)
+    for i in result:
+        for j in i:
+            data[j] = getRecipe(j)
+    print(data)
+
+    return render_template('single-recipe.html', menu=name, ingredient=ingredient, description = description, img = img, result = result, data=data)
 
 @app.route('/')
 def root():
@@ -144,45 +173,41 @@ def find():
 
     return render_template('index.html')
 
-@app.route('/a/heat')
-def hello_world10():
-    import pandas as pd
-    import matplotlib.pyplot as plt
-    import seaborn as sns
-    import matplotlib as mpl
-    from matplotlib import rc, font_manager
-    import io
-    import base64
+# @app.route('/a/heat')
+def getHeatmap(dname1, dname2, dic3, fnames):
+    from heatmap import make_heatmap
+    from query import query
+
     img = io.BytesIO()
 
-    # 폰트 추가
-    font_name = font_manager.FontProperties(fname="c:/Windows/Fonts/malgun.ttf").get_name()
-    rc('font', family=font_name)
+    dic1 = query(dname1)
+    dic2 = query(dname2)
 
-    dic = {'식품군': ['라면', '떡볶이', '카레', '라면', '떡볶이', '카레', '라면', '떡볶이', '카레'],
-           '질병': ['당뇨병', '당뇨병', '당뇨병', '저혈당', '저혈당', '저혈당', '합병', '합병', '합병'],
-           '추천지수': [21, 34, 56, 77, 64, 44, 33, 22, 33]}
-    dic = pd.DataFrame(dic)
-    recipe = dic.pivot("식품군", "질병", "추천지수")
-    ax = sns.heatmap(recipe)
+    print('fnames', fnames)
+
+    ax = make_heatmap(fnames, dic1, dic2, dic3, dname1, dname2)
     fig = ax.get_figure()
     fig.savefig(img, format='png')
 
     plot_url = base64.b64encode(img.getvalue()).decode()
 
     print(plot_url)
+    img.close()
+    del(img)
+    del(fig)
+    del(ax)
+    return plot_url
+    # return render_template('single-recipe2.html', name=plot_url)
+#								<img src="data:image/jpeg;base64, {{ name }}" >
 
 
-    return render_template('index.html', name=plot_url)
 
-
-# <img src='data:image/jpeg;base64, {{ name }}' >
 
 # TODO 추천지수 계산, 메뉴 리스트 출력
 @app.route('/query', methods=['POST'])
 def query():
     from query import query, temp, getRecommend, selectFood, selectIngre, getRecipe, getRecipeAll
-
+    from heatmap import bar
     try:
         a = request.form['search']
         print('type(a)', type(a))
@@ -247,7 +272,7 @@ def query():
         pageNum=1
 
     data = a.split(', ')
-    print(len(data))
+    print('data len', len(data))
     for i in data:
         print(i)
 
@@ -256,27 +281,34 @@ def query():
 
     try :
         if n == "1":  # 먹고 싶은 음식 있을 때
-            if len(data) == 1 or len(data) == 2:
+            if len(data) == 1: #질병이 하나 선택
+                print('data length', len(data))
                 q = query(data[0])
                 recommend, caution = getRecommend(data[0])
                 # print(q)
 
+                img_url=""
                 if foodName:
                     food = selectFood(foodName, q)
                     # print('food : ', food)
                     q = food
+                    img_url = bar(foodName, q)
+                    print('img_url1', img_url)
+
+
+
 
                 if flag == '위험률':
                     recommend_rate = sorted(q, key=lambda k: q[k][flag])  # 추천지수 계산 오름차순
                 else:
                     recommend_rate = sorted(q, key=lambda k: q[k][flag], reverse=True)  # 추천지수 계산 내림차순
                 print('recommend_rate type', type(recommend_rate))
-                print('recommend_rate', recommend_rate)
+                print('recommend_rate', recommend_rate[0:10])
 
                 resp = make_response(
                     render_template('index.html', dname=data[0], recommend=recommend, caution=caution,
                                     rate=recommend_rate,
-                                    data=q, pageNum=pageNum, recipe=recipeData))
+                                    data=q, pageNum=pageNum, recipe=recipeData, img_url=img_url))
                 resp.set_cookie('a', a)
                 resp.set_cookie('choice', n)
                 if foodName:
@@ -286,17 +318,28 @@ def query():
                 q = temp(data[0], data[1])
                 recommend1, caution1 = getRecommend(data[0])
                 recommend2, caution2 = getRecommend(data[1])
+
+                img_url=""
+                if foodName:
+                    food = selectFood(foodName, q)
+                    # print('food : ', food)
+                    q = food
+                    img_url = getHeatmap(data[0], data[1], q, foodName)
+                    print('img_url2', img_url)
+
+
                 # print(q)
                 if flag == '위험률':
                     recommend_rate = sorted(q, key=lambda k: q[k][flag])
                 else:
                     recommend_rate = sorted(q, key=lambda k: q[k][flag], reverse=True)
                 print('recommend_rate type', type(recommend_rate))
-                print('recommend_rate', recommend_rate)
+                print('recommend_rate', recommend_rate[0:10])
+
                 resp = make_response(
                     render_template('index.html', dname1=data[0], dname2=data[1], recommend1=recommend1,
                                     recommend2=recommend2, caution1=caution1, caution2=caution2,
-                                    rate=recommend_rate, data=q, foodName=foodName, pageNum=pageNum, recipe=recipeData))
+                                    rate=recommend_rate, data=q, foodName=foodName, pageNum=pageNum, recipe=recipeData, img_url=img_url))
                 resp.set_cookie('a', a)
                 resp.set_cookie('choice', n)
                 if foodName:
@@ -332,7 +375,8 @@ def query():
                 else:
                     recommend_rate = sorted(q, key=lambda k: q[k][flag], reverse=True)  # 추천지수 계산 내림차순
                 print('recommend_rate type', type(recommend_rate))
-                print('recommend_rate', recommend_rate)
+                print('recommend_rate', recommend_rate[0:10])
+
 
                 resp = make_response(
                     render_template('index2.html', dname=data[0], recommend=recommend, caution=caution,
@@ -352,7 +396,8 @@ def query():
                 else:
                     recommend_rate = sorted(q, key=lambda k: q[k][flag], reverse=True)
                 print('recommend_rate type', type(recommend_rate))
-                print('recommend_rate', recommend_rate)
+                print('recommend_rate', recommend_rate[0:10])
+
                 resp = make_response(
                     render_template('index2.html', dname1=data[0], dname2=data[1], recommend1=recommend1,
                                     recommend2=recommend2, caution1=caution1, caution2=caution2,

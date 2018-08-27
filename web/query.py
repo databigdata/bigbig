@@ -1,84 +1,160 @@
 import pymongo
-
+import pickle
 connection = pymongo.MongoClient("localhost", 27017)
 
-
+index_dic={'후천성면역결핍증식': 0,
+ '후두암식': 1,
+ '화상식': 2,
+ '협심증식': 3,
+ '허혈성심장질환식': 4,
+ '프라더 윌리 증후군식': 5,
+ '폐렴식': 6,
+ '폐경기 및 여성의 갱년기': 7,
+ '페닐케톤뇨증, PKU': 8,
+ '패혈증식': 9,
+ '크론병식': 10,
+ '콜레라식': 11,
+ '췌장암식': 12,
+ '지방간식': 13,
+ '제대혈조혈모세포식': 14,
+ '전이성간암식': 15,
+ '전립암식': 16,
+ '저혈압식': 17,
+ '저혈당증식': 18,
+ '저칼륨식': 19,
+ '저마그네슘혈증식': 20,
+ '저나트륨혈증식': 21,
+ '장폐색식, 또는 장유착식': 22,
+ '자궁내 성장지연식': 23,
+ '자궁경부암식': 24,
+ '임신성고혈압식': 25,
+ '임신성 당뇨식': 26,
+ '유방암식': 27,
+ '윌슨병식': 28,
+ '위암식': 29,
+ '위식도역류질환식': 30,
+ '위궤양식': 31,
+ '열량조절식': 32,
+ '알콜성간질환식': 33,
+ '십이지장궤양식': 34,
+ '심근경색식': 35,
+ '신증후군식': 36,
+ '식중독식': 37,
+ '식도정맥류식': 38,
+ '식도염식': 39,
+ '식도암식': 40,
+ '셀리악병식': 41,
+ '섭식장애식': 42,
+ '사구체신염식': 43,
+ '빈혈식': 44,
+ '복막염식': 45,
+ '변비식': 46,
+ '바이러스성 간염식': 47,
+ '말기신질환식': 54,
+ '만성신부전식': 53,
+ '만성담낭염식': 50,
+ '만성 췌장염식': 51,
+ '덤핑증후군식': 52,
+ '대장암식': 55,
+ '대사증후군식': 56,
+ '당원병식/당원축적병식': 57,
+ '당뇨병식': 58,
+ '담낭암식': 59,
+ '단장증후군식': 60,
+ '급성췌장염식': 61,
+ '급성신부전식': 62,
+ '구루병식': 63,
+ '골다공증식': 64,
+ '고혈압식 / 폐성 고혈압식': 65,
+ '고지혈증식': 66,
+ '갑상선암식': 67,
+ '갑상선기능항진증': 68,
+ '갑상선기능저하증': 69,
+ '간이식후식': 70,
+ '간성혼수식': 71,
+ '간경화식': 72,
+ '각기병식': 73}
+print('query in')
 def query(dname1):  # 질병 하나 계싼
-    print('q', dname1)
-    db = connection.recipeDB2
-    recipe = db.recipe
-    food = db.food
-    disease = db.disease
-
-    foodDict = dict()
-    for i in food.find():
-        foodDict[i['food']] = i['element']
-
-    dic = dict()
-
-    cur = recipe.find()  # 레시피만 가져오기
-    curdis1 = disease.find({'disease_name': {"$eq": dname1}})
-    recommend1 = []
-    bul1 = []
-
-    # recommend1 = curdis1.next()['권장식품']
-    # recommend2 = curdis2.next()['권장식품']
-    for i in curdis1:
-        recommend1.extend(i['권장식품'])
-        bul1.extend(i['주의식품'])
-
-    recommend = list(set(recommend1))
-    c = recommend.copy()
-    bul = list(set(bul1))
-
-    recommend1 = recommend.copy()
-    bul1 = bul.copy()
-
-    nl = []
-    cnt = 0
-    error = []
-    for recipe in cur:
-        recipe_name = recipe['food_name']
-        ho_count = 0
-        bul_count = 0
-        total_leng = len(recipe['ingredient'])
-        for d in recipe['ingredient']:
-            for ingredient in d:
-                for i in recommend1:
-                    try:
-                        if ingredient in foodDict[i]:
-                            ho_count = ho_count + 1
-                            break
-                    except:
-                        # continue
-                        if ingredient in i:
-                            ho_count = ho_count + 1
-                            break
-                for j in bul1:
-                    try:
-                        if ingredient in foodDict[j]:
-                            bul_count = bul_count + 1
-                            break
-                    except:
-                        # continue
-                        if ingredient in j:
-                            bul_count = bul_count + 1
-                            break
-        try:
-            p = ho_count / total_leng
-            nl.append(p)
-            q = bul_count / total_leng
-            r = 1 - p - q
-            #     print(count)
-
-            dic[recipe_name] = {'권장률': p, '위험률': q, '추천지수': p - q}
-
-            if p > 1:
-                error.append(recipe_name)
-                cnt = cnt + 1
-        except:
-            continue
-            # print(recipe_name)
+    # print('q', dname1)
+    # db = connection.recipeDB2
+    # recipe = db.recipe
+    # food = db.food
+    # disease = db.disease
+    #
+    # foodDict = dict()
+    # for i in food.find():
+    #     foodDict[i['food']] = i['element']
+    #
+    # dic = dict()
+    #
+    # cur = recipe.find()  # 레시피만 가져오기
+    # curdis1 = disease.find({'disease_name': {"$eq": dname1}})
+    # recommend1 = []
+    # bul1 = []
+    #
+    # # recommend1 = curdis1.next()['권장식품']
+    # # recommend2 = curdis2.next()['권장식품']
+    # for i in curdis1:
+    #     recommend1.extend(i['권장식품'])
+    #     bul1.extend(i['주의식품'])
+    #
+    # recommend = list(set(recommend1))
+    # c = recommend.copy()
+    # bul = list(set(bul1))
+    #
+    # recommend1 = recommend.copy()
+    # bul1 = bul.copy()
+    #
+    # nl = []
+    # cnt = 0
+    # error = []
+    # for recipe in cur:
+    #     recipe_name = recipe['food_name']
+    #     ho_count = 0
+    #     bul_count = 0
+    #     total_leng = len(recipe['ingredient'])
+    #     for d in recipe['ingredient']:
+    #         for ingredient in d:
+    #             for i in recommend1:
+    #                 try:
+    #                     if ingredient in foodDict[i]:
+    #                         ho_count = ho_count + 1
+    #                         break
+    #                 except:
+    #                     # continue
+    #                     if ingredient in i:
+    #                         ho_count = ho_count + 1
+    #                         break
+    #             for j in bul1:
+    #                 try:
+    #                     if ingredient in foodDict[j]:
+    #                         bul_count = bul_count + 1
+    #                         break
+    #                 except:
+    #                     # continue
+    #                     if ingredient in j:
+    #                         bul_count = bul_count + 1
+    #                         break
+    #     try:
+    #         p = ho_count / total_leng
+    #         nl.append(p)
+    #         q = bul_count / total_leng
+    #         r = 1 - p - q
+    #         #     print(count)
+    #
+    #         dic[recipe_name] = {'권장률': p, '위험률': q, '추천지수': p - q}
+    #
+    #         if p > 1:
+    #             error.append(recipe_name)
+    #             cnt = cnt + 1
+    #     except:
+    #         continue
+    #         # print(recipe_name)
+    print('query load')
+    with open("pickles/" + str(index_dic[dname1]) + ".pickle", 'rb') as f:
+        dic = pickle.load(f)
+    print('query load end')
     return dic
 
 
@@ -157,7 +233,9 @@ def temp(dname1, dname2):  # 질병 두개 계싼
             q = bul_count / total_leng
             r = 1 - p - q
             #     print(count)
-            dic[recipe_name] = {'권장률': p, '위험률': q, '추천지수': p - q}
+            # dic[recipe_name] = {'권장률': p, '위험률': q, '추천지수': p - q}
+            if p - q < 1:
+                dic[recipe_name] = {'권장률': p, '위험률': q, '추천지수': p - q}
 
             if p > 1:
                 error.append(recipe_name)
@@ -179,7 +257,6 @@ def getRecommend(dname):  # 특정 메뉴의 권장/주의 식품 리턴
 
 
 
-
 def getRecipe(fname):  # 특정 메뉴의 데이터를 읽어옴 single-recipe에서 레시피 보여줄 때 사용
     db = connection.recipeDB2
     recipe = db.recipe
@@ -195,7 +272,7 @@ def getRecipe(fname):  # 특정 메뉴의 데이터를 읽어옴 single-recipe�
 
 def selectFood(fnames, dic):
     result = dict()
-    print('fnames', fnames, type(fnames))
+    print('selectfnames', fnames, type(fnames))
     fnames = fnames.split(', ')
     print(type(fnames))
 
