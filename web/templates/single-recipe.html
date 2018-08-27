@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../static/assets/fonts/awards/awards.css"/>
     <link rel="stylesheet" href="../static/assets/css/styles.css"/>
     <link rel="stylesheet" href="../static/assets/css/bootstrap.css"/>
+        <link rel="icon" href="../static/assets/images/patterns/food.png">
 
     <!--[if lt IE 9]>
 	    <script src="../static/assets/js/html5shiv.js"></script>
@@ -121,8 +122,7 @@
                                                     <div class="ingredient"><a href="#">{{ k }}</a></div>
                                                     <div class="quantity">
                                                         <div class="qt">{{ v }}</div>
-                                                        <div class="qt-notes">{{ data }}
-                                                        </div>
+{#                                                        <div class="qt-notes">{{ data }}</div>#}
                                                     </div>
                                                 </li>
                                             {% endfor %}
@@ -189,7 +189,7 @@
                                             <img src="{{ data[menu_name]['img'] }}" style="width:240px; height:180px;">
                                         </div>
                                         <div class="entry-title"> <!-- 메뉴 이름  // 나머지는 삭제하거나 일단 수정 생략 -->
-                                            <a href="#">{{ menu_name }}</a>
+                                            <a href="/recipe?value={{ menu_name }}">{{ menu_name }}</a>
                                         </div>
 {#                                        <div class="entry-content">#}
 {#                                            <br><br>#}

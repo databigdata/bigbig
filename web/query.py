@@ -1,6 +1,6 @@
 import pymongo
 import pickle
-connection = pymongo.MongoClient("localhost", 27017)
+connection = pymongo.MongoClient("210.115.47.25", 27017)
 
 index_dic={'후천성면역결핍증식': 0,
  '후두암식': 1,
@@ -159,6 +159,7 @@ def query(dname1):  # 질병 하나 계싼
 
 
 def temp(dname1, dname2):  # 질병 두개 계싼
+    print('temp.start')
     db = connection.recipeDB2
     recipe = db.recipe
     food = db.food
@@ -200,6 +201,7 @@ def temp(dname1, dname2):  # 질병 두개 계싼
     nl = []
     cnt = 0
     error = []
+    # print('temp for start')
     for recipe in cur:
         recipe_name = recipe['food_name']
         ho_count = 0
@@ -227,14 +229,17 @@ def temp(dname1, dname2):  # 질병 두개 계싼
                         if ingredient in j:
                             bul_count = bul_count + 1
                             break
+        # print('temp for end')
+
         try:
             p = ho_count / total_leng
             nl.append(p)
             q = bul_count / total_leng
             r = 1 - p - q
             #     print(count)
-            # dic[recipe_name] = {'권장률': p, '위험률': q, '추천지수': p - q}
-            if p - q < 1:
+            # dic[recipe_name] = {'권장률': p, '위험률': q, '추천지수': p - q}2
+            # if p - q < 1:
+            if p-q > 0.5 and total_leng > 3 and '주스' not in recipe_name and '관법' not in recipe_name :
                 dic[recipe_name] = {'권장률': p, '위험률': q, '추천지수': p - q}
 
             if p > 1:
@@ -243,6 +248,8 @@ def temp(dname1, dname2):  # 질병 두개 계싼
         except:
             continue
             # print(recipe_name)
+    print('temp.end')
+
     return dic
     # print(cnt)
     # print(dic['초간단 순대국 만들기 뭐야.. 이 맛은'])
@@ -250,9 +257,12 @@ def temp(dname1, dname2):  # 질병 두개 계싼
 
 
 def getRecommend(dname):  # 특정 메뉴의 권장/주의 식품 리턴
+    print('getRecommend start')
     db = connection.recipeDB2
     disease = db.disease
     d = disease.find({'disease_name': {"$eq": dname}}).next()
+    print('getRecommend end')
+
     return d['권장식품'], d['주의식품']
 
 
@@ -285,7 +295,7 @@ def selectFood(fnames, dic):
     return result
 
 
-def selectIngre(plus_ingredient, minus_ingredient, dic):
+def selectIngre(plus_ingredient, minus_ingredient, dic): # TODO 이것도 시간 걸림
     db = connection.recipeDB2
     recipe = db.recipe
     food = db.food
@@ -363,6 +373,16 @@ def getRecipeAll():
 
     for i in temp:
         result.append(i)
-
+    print('getRecipeAll done')
 
     return result
+
+def getDisease(dname):
+    db = connection.recipeDB2
+    print('getDisease load db')
+    disease=db.disease
+    print('getDiease load db end')
+
+    tempDict = dict()
+    tempDict[dname] = disease.find({'disease_name' : {'$eq' : dname}}).next()
+    return tempDict

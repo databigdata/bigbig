@@ -12,6 +12,7 @@
     <link rel='stylesheet' href='https://sliptree.github.io/bootstrap-tokenfield/dist/css/tokenfield-typeahead.css'>
     <link rel="stylesheet" href="../static/assets/css/styles.css"/>
     <link rel="stylesheet" href="../static/assets/css/bootstrap.css"/>
+    <link rel="icon" href="../static/assets/images/patterns/food.png">
 
     <!--[if lt IE 9]>
 	    <script src="../static/assets/js/html5shiv.js"></script>
@@ -239,12 +240,26 @@
         });
     }
 
+    // TODO 수정?!
+    $("#tokenin").tokenfield();
+    console.log($('#tokenin'));
+    $('#tokenin').on('keyup', function () {
+        console.log('token-input'); // TODO filter-keywords
+        smk_theme_keyword_index_filter(document.getElementById("tokenin"));
+    });
+
+    $('#tokenin-tokenfield').on('keyup', function () {
+        console.log('tokenin-tokenfield'); // TODO filter-keywords
+        smk_theme_keyword_index_filter(document.getElementById("tokenin-tokenfield"));
+    });
+
+
     function cauClick() {
-        {#console.log("clickkk");#}
-        {#console.log(this);#}
 
         console.log(this.text);
-        $("#tokenin").tokenfield();
+        {#$("#tokenin").tokenfield();#}
+        var temp = $("#tokenin").tokenfield('getTokensList')  // tokenlist 저장
+
         $("#tokenin").tokenfield('createToken', this.text);
 
         $("#tokenin").on('tokenfield:createtoken', function (event) {
@@ -254,17 +269,27 @@
                     event.preventDefault();
             });
         });
-        // TODO 또 추가
-        console.log($('#tokenin'));
-        $('#tokenin').on('keyup', function () {
-            console.log('token-input'); // TODO filter-keywords
-            smk_theme_keyword_index_filter(document.getElementById("tokenin"));
-        });
 
-        $('#tokenin-tokenfield').on('keyup', function () {
-            console.log('tokenin-tokenfield'); // TODO filter-keywords
-            smk_theme_keyword_index_filter(document.getElementById("tokenin-tokenfield"));
-        });
+       /* console.log($("#tokenin").tokenfield('getTokensList'));
+        console.log($("#tokenin").tokenfield('getTokensList').split(", "));
+        console.log($("#tokenin").tokenfield('getTokensList').split(", ").length);  */
+
+        if($("#tokenin").tokenfield('getTokensList').split(", ").length > 2){
+            alert('최대 두 개까지만 선택 가능')
+            $("#tokenin").tokenfield('setTokens' , temp);
+        }
+
+        // TODO 함수 밖에서 호출
+        {#console.log($('#tokenin'));#}
+        {#$('#tokenin').on('keyup', function () {#}
+        {#    console.log('token-input'); // TODO filter-keywords#}
+        {#    smk_theme_keyword_index_filter(document.getElementById("tokenin"));#}
+        //{#});#}
+        {##}
+        {#$('#tokenin-tokenfield').on('keyup', function () {#}
+        {#    console.log('tokenin-tokenfield'); // TODO filter-keywords#}
+        {#    smk_theme_keyword_index_filter(document.getElementById("tokenin-tokenfield"));#}
+      //  {#});#}
 
 
         {#$('.token-input').addClass('fullwidth filter-keywords');#}

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../static/assets/css/bootstrap-tokenfield.css"/>
     <link rel='stylesheet' href='https://sliptree.github.io/bootstrap-tokenfield/dist/css/tokenfield-typeahead.css'>
     <link rel="stylesheet" href="../static/assets/css/bootstrap.css"/>
+        <link rel="icon" href="../static/assets/images/patterns/food.png">
 
 
     <!--[if lt IE 9]>
@@ -413,8 +414,15 @@
 
     $(function () {
         if (window.pagObj == undefined) {
+
+              var total = {{ (((rate|length)|int)/20)|int }};
+
+            if(parseInt(gpage) > parseInt(total))
+                total = gpage;
+
+
             window.pagObj = $('#pagination').twbsPagination({
-                totalPages: {{ (((rate|length)|int)/20)|int }},
+                totalPages: parseInt(total),
                 visiblePages: 10,
                 startPage: parseInt(gpage),
                 onPageClick: function (event, page) {

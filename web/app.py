@@ -206,7 +206,7 @@ def getHeatmap(dname1, dname2, dic3, fnames):
 # TODO 추천지수 계산, 메뉴 리스트 출력
 @app.route('/query', methods=['POST'])
 def query():
-    from query import query, temp, getRecommend, selectFood, selectIngre, getRecipe, getRecipeAll
+    from query import query, temp, getRecommend, selectFood, selectIngre, getRecipe, getRecipeAll, getDisease
     from heatmap import bar
     try:
         a = request.form['search']
@@ -233,7 +233,7 @@ def query():
             flag = '추천지수'
     except:
         print('error')
-        flag = '권장률'
+        flag = '추천지수'
 
     try:
         foodName = request.form['food']
@@ -276,7 +276,7 @@ def query():
     for i in data:
         print(i)
 
-    recipeData = getRecipeAll()
+
 
 
     try :
@@ -297,6 +297,12 @@ def query():
 
 
 
+                disease=[]
+                disease.append(getDisease(data[0])) # 질병정보 읽어오기
+                print('disease : ', disease)
+
+
+
 
                 if flag == '위험률':
                     recommend_rate = sorted(q, key=lambda k: q[k][flag])  # 추천지수 계산 오름차순
@@ -305,10 +311,15 @@ def query():
                 print('recommend_rate type', type(recommend_rate))
                 print('recommend_rate', recommend_rate[0:10])
 
+                recipeData = []
+                for iter in recommend_rate[(int(pageNum) - 1) * 20: int(pageNum) * 20]:
+                    print(str((int(pageNum) - 1) * 20), '~', str(int(pageNum) * 20))
+                    recipeData.append(getRecipe(iter))
+
                 resp = make_response(
                     render_template('index.html', dname=data[0], recommend=recommend, caution=caution,
                                     rate=recommend_rate,
-                                    data=q, pageNum=pageNum, recipe=recipeData, img_url=img_url))
+                                    data=q, pageNum=pageNum, recipe=recipeData, img_url=img_url, disease = disease))
                 resp.set_cookie('a', a)
                 resp.set_cookie('choice', n)
                 if foodName:
@@ -319,13 +330,19 @@ def query():
                 recommend1, caution1 = getRecommend(data[0])
                 recommend2, caution2 = getRecommend(data[1])
 
-                img_url=""
+                img_url = ""
                 if foodName:
                     food = selectFood(foodName, q)
                     # print('food : ', food)
                     q = food
                     img_url = getHeatmap(data[0], data[1], q, foodName)
                     print('img_url2', img_url)
+
+                disease = []
+                for name in data:
+                    disease.append(getDisease(name))  # 질병정보 읽어오기
+                print('disease : ', disease)
+
 
 
                 # print(q)
@@ -336,17 +353,22 @@ def query():
                 print('recommend_rate type', type(recommend_rate))
                 print('recommend_rate', recommend_rate[0:10])
 
+                recipeData = []
+                for iter in recommend_rate[(int(pageNum) - 1) * 20: int(pageNum) * 20]:
+                    print(str((int(pageNum) - 1) * 20), '~', str(int(pageNum) * 20))
+                    recipeData.append(getRecipe(iter))
+
                 resp = make_response(
                     render_template('index.html', dname1=data[0], dname2=data[1], recommend1=recommend1,
                                     recommend2=recommend2, caution1=caution1, caution2=caution2,
-                                    rate=recommend_rate, data=q, foodName=foodName, pageNum=pageNum, recipe=recipeData, img_url=img_url))
+                                    rate=recommend_rate, data=q, foodName=foodName, pageNum=pageNum, recipe=recipeData, img_url=img_url, disease=disease ))
                 resp.set_cookie('a', a)
                 resp.set_cookie('choice', n)
                 if foodName:
                     resp.set_cookie('foodName', foodName)
                 return resp
         else:  # 없을 때
-            if len(data) == 1 or len(data) == 2:
+            if len(data) == 1 :
                 q = query(data[0])
                 recommend, caution = getRecommend(data[0])
                 # print(q)
@@ -377,6 +399,10 @@ def query():
                 print('recommend_rate type', type(recommend_rate))
                 print('recommend_rate', recommend_rate[0:10])
 
+                recipeData = []
+                for iter in recommend_rate[(int(pageNum) - 1) * 20: int(pageNum) * 20]:
+                    print(str((int(pageNum) - 1) * 20), '~', str(int(pageNum) * 20))
+                    recipeData.append(getRecipe(iter))
 
                 resp = make_response(
                     render_template('index2.html', dname=data[0], recommend=recommend, caution=caution,
@@ -391,12 +417,21 @@ def query():
                 recommend1, caution1 = getRecommend(data[0])
                 recommend2, caution2 = getRecommend(data[1])
                 # print(q)
+                print('sort start')
                 if flag == '위험률':
                     recommend_rate = sorted(q, key=lambda k: q[k][flag])
                 else:
                     recommend_rate = sorted(q, key=lambda k: q[k][flag], reverse=True)
+                print('sort start')
+
                 print('recommend_rate type', type(recommend_rate))
                 print('recommend_rate', recommend_rate[0:10])
+
+                recipeData = []
+                for iter in recommend_rate[(int(pageNum) - 1) * 20: int(pageNum) * 20]:
+                    print(str((int(pageNum) - 1) * 20), '~', str(int(pageNum) * 20))
+                    recipeData.append(getRecipe(iter))
+
 
                 resp = make_response(
                     render_template('index2.html', dname1=data[0], dname2=data[1], recommend1=recommend1,
@@ -412,4 +447,5 @@ def query():
 
 
 if __name__ == '__main__':
+    print('main')
     app.run()

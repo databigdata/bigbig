@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../static/assets/css/bootstrap-tokenfield.css"/>
     <link rel='stylesheet' href='https://sliptree.github.io/bootstrap-tokenfield/dist/css/tokenfield-typeahead.css'>
     <link rel="stylesheet" href="../static/assets/css/style2.css">
-    <link rel="icon" href="https://getbootstrap.com/favicon.ico">
+    <link rel="icon" href="../static/assets/images/patterns/food.png">
     <!--[if lt IE 9]>
 	    <script src="../static/assets/js/html5shiv.js"></script>
 	<![endif]-->
@@ -120,10 +120,32 @@
             </div>
 
             <!-- Main content -->
-            <div>
+            <div class="rw-section rw-container right-sidebar">
                 <!-- TODO 여기다가 히트맵 추가 -->
-                <h4> [질병]에 대한 선택한 음식별 평균 추천지수 비교</h4>
-                <img src="data:image/jpeg;base64, {{ img_url }}">
+                    {% if dname %}
+                        <h4>{{ dname }} 에 대한 선택한 음식별 평균 추천지수 비교</h4>
+                    {% elif dname1 %}
+                        <h4>{{ dname1 }} / {{ dname2 }}에 대한 선택한 음식별 평균 추천지수 비교</h4>
+                    {% endif %}
+
+                <div class="rw-column">
+                    <img src="data:image/jpeg;base64, {{ img_url }}" style="width:480px; height:360px">
+                </div>
+
+                <div class="rw-column">
+                    {% for item in disease %}
+                        {% for k, v in item.items() %}
+                            <h4>{{ k }}</h4>
+                            <h6>식사요법의 실제 <br>
+                            {% for i in v['식사요법의 실제'].replace('\n','').split('\r') %}
+                                {{ i }}<br>
+                            {% endfor %}
+                            </h6>
+                            <br>
+                            <h6>그 외 주의사항 : {{ v['그 외 주의사항'] }}</h6>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
 
             </div>
             <div class="rw-column rw-content">
@@ -312,8 +334,14 @@
 
     $(function () {
         if (window.pagObj == undefined) {
+
+            var total = {{ (((rate|length)|int)/20)|int }};
+
+            if(parseInt(gpage) > parseInt(total))
+                total = gpage;
+
             window.pagObj = $('#pagination').twbsPagination({
-                totalPages: {{ (((rate|length)|int)/20)|int }},
+                totalPages: parseInt(total),
                 visiblePages: 10,
                 startPage: parseInt(gpage),
                 onPageClick: function (event, page) {

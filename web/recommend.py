@@ -75,13 +75,16 @@ def return_fin(filtered_foodL, food_name):
 
 def fin_recommend(dic, q):
     list_dic = sorted(dic.items(), key=lambda dic: dic[1]['추천지수'], reverse=True)
-
+    d=[]
     newlist_dic = []
-    for t in list_dic:
-        if t[1]['추천지수'] > 0.45:
-            newlist_dic.append(t[0])
+    try:
+        for t in list_dic:
+            if t[1]['추천지수'] > 0.6:
+                newlist_dic.append(t[0])
 
-    fin = return_fin(newlist_dic, q)
-    d = [{i: dic[i]} for i in fin]
+        fin = return_fin(newlist_dic, q)
+        d = [{i: dic[i]} for i in fin]
+    except Exception as e:
+        print(e)
 
     return d
