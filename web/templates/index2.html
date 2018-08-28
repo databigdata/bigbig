@@ -14,6 +14,7 @@
     <link rel='stylesheet' href='https://sliptree.github.io/bootstrap-tokenfield/dist/css/tokenfield-typeahead.css'>
     <link rel="stylesheet" href="../static/assets/css/bootstrap.css"/>
     <link rel="icon" href="../static/assets/images/patterns/food.png">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css"/>
 
 
     <!--[if lt IE 9]>
@@ -92,9 +93,10 @@
                 </div>
 
                 <div class="col-10" style="    padding-left: 0px;    padding-right: 0px;">
-                    <div class="col-12 row" style="   padding-left: 0px;    padding-right: 0px;    margin-right: 0px;    margin-left: 0px;">
+                    <div class="col-12 row"
+                         style="   padding-left: 0px;    padding-right: 0px;    margin-right: 0px;    margin-left: 0px;">
 
-                        <div class="col-2 text-light bg-dark text-center"><span style="font-size:x-large">권장식품</span></div>
+                        <div class="col-2 text-light bg-dark text-center"><h4>권장식품</h4></div>
                         <div class="col-10" style="border:1px solid;padding-right: 0px;padding-left: 0px;">
                             {% if dname %}
                                 {% for i in recommend %}
@@ -110,9 +112,10 @@
                     </div>
 
 
-                    <div class="col-12 row" style="    padding-left: 0px;    padding-right: 0px;    margin-right: 0px;    margin-left: 0px;">
+                    <div class="col-12 row"
+                         style="    padding-left: 0px;    padding-right: 0px;    margin-right: 0px;    margin-left: 0px;">
 
-                        <div class="col-2 text-light bg-dark text-center"><span style="font-size:x-large">주의식품</span></div>
+                        <div class="col-2 text-light bg-dark text-center"><h4>주의식품</h4></div>
                         <div class="col-10" style="border:1px solid;padding-right: 0px;padding-left: 0px;">
                             {% if dname %}
                                 {% for i in caution %}
@@ -139,9 +142,10 @@
                     </div>
 
                     <div class="col-10" style="    padding-left: 0px;    padding-right: 0px;">
-                        <div class="col-12 row" style="    padding-left: 0px;    padding-right: 0px;    margin-right: 0px;    margin-left: 0px;">
+                        <div class="col-12 row"
+                             style="    padding-left: 0px;    padding-right: 0px;    margin-right: 0px;    margin-left: 0px;">
 
-                            <div class="col-2 text-light bg-dark text-center"><span style="font-size:x-large">권장식품</span></div>
+                            <div class="col-2 text-light bg-dark text-center"><h4>권장식품</h4></div>
                             <div class="col-10" style="border:1px solid;padding-right: 0px;padding-left: 0px;">
                                 {% for i in recommend1 %}
                                     <a class="reco" href="#" style="font-size: x-large"> {{ i +' ' }} </a>
@@ -151,9 +155,10 @@
                         </div>
 
 
-                        <div class="col-12 row" style="    padding-left: 0px;    padding-right: 0px;    margin-right: 0px;    margin-left: 0px;">
+                        <div class="col-12 row"
+                             style="    padding-left: 0px;    padding-right: 0px;    margin-right: 0px;    margin-left: 0px;">
 
-                            <div class="col-2 text-light bg-dark text-center"><span style="font-size:x-large">주의식품</span></div>
+                            <div class="col-2 text-light bg-dark text-center"><h4>주의식품</h4></div>
                             <div class="col-10" style="border:1px solid;padding-right: 0px;padding-left: 0px;">
                                 {% for i in caution1 %}
                                     <a class="cau" href="#" style="font-size: x-large"> {{ i +' ' }} </a>
@@ -224,7 +229,7 @@
                 </form>
 
             </div>
-                        <div class="row rw-row subtle large" style="    padding-bottom: 0px;    padding-top: 0px;">
+            <div class="row rw-row subtle large" style="    padding-bottom: 0px;    padding-top: 0px;">
 
                 <form name="myForm" method="POST" action="{{ url_for('query') }}">
                     <div class="form-group">
@@ -310,17 +315,82 @@
 
                                     {#                                        </div>#}
 
-                                    <div class="row entry-content" style="margin-right: 5px">
-                                        <div class="col-4 mb-2 bg-success text-white">권장률
-                                            ({{ '%0.2f' % (data[menu]['권장률'] * 100) |float }}%)
+
+                                    <div class="entry-content"> <!-- 세부 내용 -->
+                                        {#                                            {{ menu }}#}
+                                        {#                                            {{ data[menu] }}#}
+                                        {#                                            <br>#}
+                                        <div class="row" style="margin-right: 5px">
+
+
+                                            <div class="col-12 charts">
+
+                                                {% if ((data[menu]['권장률'] * 100) |int)  < 40 %}
+                                                    <div class="row" style="margin-left: 0px;"><p
+                                                            style="margin-top: 5px;margin-bottom: 0px;">권장률</p>
+                                                        <div class="charts__chart chart--p{{((data[menu]['권장률'] * 100) |int)}} chart--sm"
+                                                             data-percent=""></div><!-- /.charts__chart -->
+                                                    </div>
+
+                                                {% else %}
+                                                    <div class="charts__chart chart--green" style="width : {{ (data[menu]['권장률'] * 100) |int }}%">
+                                                        <span style="color:#ebeded; font-size:1.2em">권장률 {{ (data[menu]['권장률'] * 100) |int }}%</span>
+                                                    </div>
+                                                {% endif %}
+                                                <!-- /.charts__chart -->
+
+                                                {% if ((data[menu]['위험률'] * 100) |int)  == 0 %}
+                                                    <div class="row" style="margin-left: 0px;"><p
+                                                            style="margin-top: 5px;margin-bottom: 0px;">위험률</p>
+                                                        <div class="charts__chart chart--p{{ ((data[menu]['위험률'] * 100) |int) }} chart--sm"
+                                                             data-percent=""></div><!-- /.charts__chart -->
+                                                    </div>
+                                                {% elif ((data[menu]['위험률'] * 100) |int)  <= 20 %}
+                                                    <div class="charts__chart chart--red"
+                                                         style="width: {{ (data[menu]['위험률'] * 100) |int }}%"></div>
+                                                {% else %}
+                                                    <div class="charts__chart chart--red"
+                                                         style="width: {{ (data[menu]['위험률'] * 100) |int }}%">
+                                                        <span style="color:#ebeded; font-size:1.2em">위험률 {{ (data[menu]['위험률'] * 100) |int }}%</span>
+                                                    </div>
+                                                    <!-- /.charts__chart -->
+                                                {% endif %}
+
+
+                                                {% if ((data[menu]['추천지수'] * 100) |int)  == 0 %}
+                                                    <div class="row" style="margin-left: 0px;"><p
+                                                            style="margin-top: 5px;margin-bottom: 0px;">추천지수</p>
+                                                        <div class="charts__chart chart--p0 chart--sm"
+                                                             data-percent=""></div><!-- /.charts__chart -->
+                                                    </div>
+
+                                                {% else %}
+
+                                                    <div class="charts__chart chart--blue"
+                                                         style="width: {{ (data[menu]['추천지수'] * 100) |int }}%">
+                                                        <span style="color:#ebeded; font-size:1.2em">추천지수 {{ (data[menu]['추천지수'] * 100) |int }}%</span>
+
+
+                                                    </div>
+                                                {% endif %}
+
+                                                <!-- /.charts__chart -->
+                                            </div><!-- /.charts -->
                                         </div>
-                                        <div class="col-4  mb-2 bg-danger text-white">위험률
-                                            ({{ '%0.2f' % (data[menu]['위험률'] * 100) |float }}%)
-                                        </div>
-                                        <div class="col-4  mb-2 bg-primary text-white" style="font-size: 14px">
-                                            추천지수 ({{ '%0.2f' % (data[menu]['추천지수'] * 100) |float }}%)
-                                        </div>
+
                                     </div>
+
+                                    {#                                    <div class="row entry-content" style="margin-right: 5px">#}
+                                    {#                                        <div class="col-4 mb-2 bg-success text-white">권장률#}
+                                    {#                                            ({{ '%0.2f' % (data[menu]['권장률'] * 100) |float }}%)#}
+                                    {#                                        </div>#}
+                                    {#                                        <div class="col-4  mb-2 bg-danger text-white">위험률#}
+                                    {#                                            ({{ '%0.2f' % (data[menu]['위험률'] * 100) |float }}%)#}
+                                    {#                                        </div>#}
+                                    {#                                        <div class="col-4  mb-2 bg-primary text-white" style="font-size: 14px">#}
+                                    {#                                            추천지수 ({{ '%0.2f' % (data[menu]['추천지수'] * 100) |float }}%)#}
+                                    {#                                        </div>#}
+                                    {#                                    </div>#}
 
 
                                     {#                                        <div class="entry-controls">#}

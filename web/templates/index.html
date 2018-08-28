@@ -14,6 +14,8 @@
     <link rel='stylesheet' href='https://sliptree.github.io/bootstrap-tokenfield/dist/css/tokenfield-typeahead.css'>
     <link rel="stylesheet" href="../static/assets/css/style2.css">
     <link rel="icon" href="../static/assets/images/patterns/food.png">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css"/>
+
     <!--[if lt IE 9]>
 	    <script src="../static/assets/js/html5shiv.js"></script>
 	<![endif]-->
@@ -75,11 +77,10 @@
         <div class="rw-inner clearfix">
 
 
-
             <!-- Main content -->
-            <div class="rw-section rw-container right-sidebar"style="padding:35px">
+            <div class="rw-section rw-container right-sidebar" style="padding:35px">
                 <!-- TODO 여기다가 히트맵 추가 -->
-            {% if img_rul != "" %}
+                {% if img_rul != "" %}
                     {% if dname %}
                         <h4>{{ dname }} 에 대한 선택한 음식별 평균 추천지수 비교</h4>
                     {% elif dname1 %}
@@ -87,22 +88,22 @@
                     {% endif %}
 
                     <div class="card-row" style="display:flex">
-                <div class="rw-column" style="flex:none;margin-right:15px">
-                {% if img_url != "" %}
-                    <img src="data:image/jpeg;base64, {{ img_url }}" style="width:480px; height:360px">
-                    {% else %}
-                    <div style="width:480px; height:360px"></div>
-                    {% endif %}
-                </div>
-            {% endif %}
+                    <div class="rw-column" style="flex:none;margin-right:15px">
+                        {% if img_url != "" %}
+                            <img src="data:image/jpeg;base64, {{ img_url }}" style="width:480px; height:360px">
+                        {% else %}
+                            <div style="width:480px; height:360px"></div>
+                        {% endif %}
+                    </div>
+                {% endif %}
                 <div class="rw-column">
                     {% for item in disease %}
                         {% for k, v in item.items() %}
                             <h4>{{ k }}</h4>
                             <h6>식사요법의 실제 <br>
-                            {% for i in v['식사요법의 실제'].replace('\n','').split('\r') %}
-                                {{ i }}<br>
-                            {% endfor %}
+                                {% for i in v['식사요법의 실제'].replace('\n','').split('\r') %}
+                                    {{ i }}<br>
+                                {% endfor %}
                             </h6>
                             <br>
                             <h6>그 외 주의사항 : {{ v['그 외 주의사항'] }}</h6>
@@ -117,7 +118,7 @@
                 $('.card-row').css('display', "flex");
             </script>
 
-                        <div class='container'>
+            <div class='container'>
                 <div class="row rw-row subtle" style="padding:35px">
                     <form name="myForm" method="POST" action="{{ url_for('query') }}">
                         <div class="form-group">
@@ -160,7 +161,6 @@
                     </form>
                 </div>
             </div>
-
 
 
             <div class="rw-column rw-content">
@@ -211,25 +211,123 @@
                                             <a name='menu' href='recipe?value={{ menu }}'>{{ menu }}</a>
                                         </div>
                                         {#                                        {% endif %}#}
-                                        <br>
-                                        <div class="entry-content"> <!-- 세부 내용 -->
+
+                                                                            <div class="entry-content"> <!-- 세부 내용 -->
+                                        {#                                            {{ menu }}#}
+                                        {#                                            {{ data[menu] }}#}
+                                        {#                                            <br>#}
+                                        <div class="row" style="margin-right: 5px">
+
+
+                                            <div class="col-12 charts">
+
+                                                {% if ((data[menu]['권장률'] * 100) |int)  < 40 %}
+                                                    <div class="row" style="margin-left: 0px;"><p
+                                                            style="margin-top: 5px;margin-bottom: 0px;">권장률</p>
+                                                        <div class="charts__chart chart--p{{((data[menu]['권장률'] * 100) |int)}} chart--sm"
+                                                             data-percent=""></div><!-- /.charts__chart -->
+                                                    </div>
+
+                                                {% else %}
+                                                    <div class="charts__chart chart--green" style="width : {{ (data[menu]['권장률'] * 100) |int }}%">
+                                                        <span style="color:#ebeded; font-size:1.2em">권장률 {{ (data[menu]['권장률'] * 100) |int }}%</span>
+                                                    </div>
+                                                {% endif %}
+                                                <!-- /.charts__chart -->
+
+                                                {% if ((data[menu]['위험률'] * 100) |int)  == 0 %}
+                                                    <div class="row" style="margin-left: 0px;"><p
+                                                            style="margin-top: 5px;margin-bottom: 0px;">위험률</p>
+                                                        <div class="charts__chart chart--p{{ ((data[menu]['위험률'] * 100) |int) }} chart--sm"
+                                                             data-percent=""></div><!-- /.charts__chart -->
+                                                    </div>
+                                                {% elif ((data[menu]['위험률'] * 100) |int)  <= 20 %}
+                                                    <div class="charts__chart chart--red"
+                                                         style="width: {{ (data[menu]['위험률'] * 100) |int }}%"></div>
+                                                {% else %}
+                                                    <div class="charts__chart chart--red"
+                                                         style="width: {{ (data[menu]['위험률'] * 100) |int }}%">
+                                                        <span style="color:#ebeded; font-size:1.2em">위험률 {{ (data[menu]['위험률'] * 100) |int }}%</span>
+                                                    </div>
+                                                    <!-- /.charts__chart -->
+                                                {% endif %}
+
+
+                                                {% if ((data[menu]['추천지수'] * 100) |int)  == 0 %}
+                                                    <div class="row" style="margin-left: 0px;"><p
+                                                            style="margin-top: 5px;margin-bottom: 0px;">추천지수</p>
+                                                        <div class="charts__chart chart--p0 chart--sm"
+                                                             data-percent=""></div><!-- /.charts__chart -->
+                                                    </div>
+
+                                                {% else %}
+
+                                                    <div class="charts__chart chart--blue"
+                                                         style="width: {{ (data[menu]['추천지수'] * 100) |int }}%">
+                                                        <span style="color:#ebeded; font-size:1.2em">추천지수 {{ (data[menu]['추천지수'] * 100) |int }}%</span>
+
+
+                                                    </div>
+                                                {% endif %}
+
+                                                <!-- /.charts__chart -->
+                                            </div><!-- /.charts -->
+                                        </div>
+
+                                    </div>
+
+{#                                        <div class="entry-content"> <!-- 세부 내용 -->#}
                                             {#                                            {{ menu }}#}
                                             {#                                            {{ data[menu] }}#}
                                             {#                                            <br>#}
-                                            <div class="row" style="margin-right: 5px">
-                                                <div class="col-4 mb-2 bg-success text-white">권장률
-                                                    ({{ '%0.2f' % (data[menu]['권장률'] * 100) |float }}%)
-                                                </div>
-                                                <div class="col-4  mb-2 bg-danger text-white">위험률
-                                                    ({{ '%0.2f' % (data[menu]['위험률'] * 100) |float }}%)
-                                                </div>
-                                                <div class="col-4  mb-2 bg-primary text-white" style="font-size: 14px">
-                                                    추천지수 ({{ '%0.2f' % (data[menu]['추천지수'] * 100) |float }}%)
-                                                </div>
-                                            </div>
-
-                                            {#                                            <p>{{ (data[menu]['권장률'] * 100 ),"%", (data[menu]['위험률'] * 100),"%" , (data[menu]['추천지수'] * 100 ), "%" }}</p>#}
-                                        </div>
+{#                                            <div class="row" style="margin-right: 5px">#}
+{##}
+{##}
+{#                                                <div class="col-12 charts">#}
+{##}
+{#                                                    {% if ((data[menu]['권장률'] * 100) |int)  == 0 %}#}
+{#                                                       <div class="row" style="margin-left: 0px;"><p style="margin-top: 5px;margin-bottom: 0px;">권장률</p>#}
+{#                                                        <div class="charts__chart chart--p0 chart--sm"#}
+{#                                                             data-percent=""></div><!-- /.charts__chart -->#}
+{#                                                        </div>#}
+{##}
+{#                                                    {% else %}#}
+{#                                                        <div class="charts__chart chart--green"#}
+{#                                                             data-percent="권장률 ({{ (data[menu]['권장률'] * 100) |int }}%)"#}
+{#                                                             style="width : {{ (data[menu]['권장률'] * 100) |int }}%"></div>#}
+{#                                                    {% endif %}#}
+{#                                                    <!-- /.charts__chart -->#}
+{#                                                    {% if ((data[menu]['위험률'] * 100) |int)  == 0 %}#}
+{#                                                        <div class="row" style="margin-left: 0px;"><p style="margin-top: 5px;margin-bottom: 0px;">위험률</p>#}
+{#                                                        <div class="charts__chart chart--p0 chart--sm"#}
+{#                                                             data-percent=""></div><!-- /.charts__chart -->#}
+{#                                                        </div>#}
+{#                                                    {% else %}#}
+{#                                                        <div class="charts__chart chart--red"#}
+{#                                                             data-percent="위험률 ({{ (data[menu]['위험률'] * 100) |int }}%)"#}
+{#                                                             style="width: {{ (data[menu]['위험률'] * 100) |int }}%"></div>#}
+{#                                                        <!-- /.charts__chart -->#}
+{#                                                    {% endif %}#}
+{##}
+{##}
+{#                                                    {% if ((data[menu]['추천지수'] * 100) |int)  == 0 %}#}
+{#                                                        <div class="row" style="margin-left: 0px;"><p style="margin-top: 5px;margin-bottom: 0px;">추천지수</p>#}
+{#                                                        <div class="charts__chart chart--p0 chart--sm"#}
+{#                                                             data-percent=""></div><!-- /.charts__chart -->#}
+{#                                                        </div>#}
+{##}
+{#                                                    {% else %}#}
+{##}
+{#                                                        <div class="charts__chart chart--blue"#}
+{#                                                             data-percent="추천지수 ({{ (data[menu]['추천지수'] * 100) |int }}%)"#}
+{#                                                             style="width: {{ (data[menu]['추천지수'] * 100) |int }}%"></div>#}
+{#                                                    {% endif %}#}
+{##}
+{#                                                    <!-- /.charts__chart -->#}
+{#                                                </div><!-- /.charts -->#}
+{#                                            </div>#}
+{##}
+{#                                        </div>#}
 
                                     </div> <!-- .entry -->
 
@@ -352,7 +450,7 @@
 
             var total = {{ (((rate|length)|int)/20)|int }};
 
-            if(parseInt(gpage) > parseInt(total))
+            if (parseInt(gpage) > parseInt(total))
                 total = gpage;
 
             window.pagObj = $('#pagination').twbsPagination({
