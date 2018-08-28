@@ -45,109 +45,77 @@ def showRecipe():
 @app.route('/')
 def root():
     disease = {'후천성면역결핍증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022698',
-               '후두암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022837',
-               '화상식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022715',
-               '호모시스틴뇨증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022779',
-               '협심증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022787',
-               '허혈성심장질환식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022838',
-               '항문암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022807',
-               '프로피온산혈증, 프로피온산증': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022841',
-               '프라더 윌리 증후군식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022842',
-               '폐렴식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022843',
-               '폐경기 및 여성의 갱년기': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022844',
-               '페닐케톤뇨증, PKU': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022845',
-               '패혈증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022704',
-               '파킨슨증후군식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022846',
-               '크론병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022848',
-               '콜레라식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022849',
-               '췌장암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022850',
-               '천식식단': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022851',
-               '지방간식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022852',
-               '제대혈조혈모세포식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022853',
-               '전이성폐암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024105',
-               '전이성간암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024107',
-               '전립암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024106',
-               '저혈압식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024108',
-               '저혈당증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024111',
-               '저퓨린식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022722',
-               '저칼륨식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024109',
-               '저신장증,왜소증,성장장애': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024110',
-               '저마그네슘혈증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024112',
-               '저나트륨혈증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024113',
-               '장폐색식, 또는 장유착식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024114',
-               '자궁내 성장지연식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024115',
-               '자궁경부암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024116',
-               '임신성고혈압식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024117',
-               '임신성 당뇨식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024118',
-               '유방암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024119',
-               '윌슨병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024120',
-               '위암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024121',
-               '위식도역류질환식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024122',
-               '위궤양식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024124',
-               '요로결석식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024129',
-               '열량조절식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022776',
-               '알콜성간질환식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024131',
-               '알츠하이머식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024134',
-               '아토피성 피부염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024135',
-               '십이지장궤양식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024141',
-               '심근경색식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024136',
-               '신증후군식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024137',
-               '식품 알레르기식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024138',
-               '식중독식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024133',
-               '식도정맥류식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024140',
-               '식도염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024139',
-               '식도암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024142',
-               '소화불량식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024143',
-               '셀리악병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024146',
-               '섭식장애식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024144',
-               '산모식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024145',
-               '사구체신염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024147',
-               '빈혈식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024148',
-               '복수식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024149',
-               '복막염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024150',
-               '변비식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024151',
-               '바이러스성 간염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024152',
-               '말기신질환식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024153',
-               '만성피로증후군식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024155',
-               '만성폐쇄성폐질환식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024154',
-               '만성신부전식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024157',
-               '만성담낭염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024196',
-               '만성 췌장염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024156',
-               '덤핑증후군식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024158',
-               '대장양성종양식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024161',
-               '대장암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024159',
-               '대사증후군식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024164',
-               '대사성산증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024162',
-               '당원병식/당원축적병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024160',
-               '당뇨병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024163',
-               '당뇨병성족부병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024167',
-               '담낭암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024168',
-               '단장증후군식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024166',
-               '다발성골수종식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024165',
-               '뇌졸중식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024176',
-               '뇌경색식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024173',
-               '노인식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024171',
-               '급성췌장염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024174',
-               '급성신부전식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024179',
-               '급성골수성백혈병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024170',
-               '급성/만성 위염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024175',
-               '급만성 림프모구성백혈병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024178',
-               '궤양성대장염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024177',
-               '구토식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024172',
-               '구루병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024180',
-               '골다공증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024181',
-               '고혈압식 / 폐성 고혈압식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024182',
-               '고칼슘혈증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024186',
-               '고지혈증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024183',
-               '고마그네슘혈증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024184',
-               '결핵식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024187',
-               '갑상선암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024188',
-               '갑상선기능항진증': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024189',
-               '갑상선기능저하증': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024190',
-               '간이식후식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024191',
-               '간성혼수식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024193',
-               '간경화식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024192',
-               '각기병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024194'}
+ '후두암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022837',
+ '화상식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022715',
+ '협심증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022787',
+ '허혈성심장질환식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022838',
+ '프라더 윌리 증후군식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022842',
+ '폐렴식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022843',
+ '폐경기 및 여성의 갱년기': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022844',
+ '페닐케톤뇨증, PKU': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022845',
+ '패혈증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022704',
+ '크론병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022848',
+ '콜레라식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022849',
+ '췌장암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022850',
+ '지방간식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022852',
+ '제대혈조혈모세포식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022853',
+ '전이성간암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024107',
+ '전립암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024106',
+ '저혈압식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024108',
+ '저혈당증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024111',
+ '저칼륨식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024109',
+ '저마그네슘혈증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024112',
+ '저나트륨혈증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024113',
+ '장폐색식, 또는 장유착식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024114',
+ '자궁내 성장지연식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024115',
+ '자궁경부암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024116',
+ '임신성고혈압식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024117',
+ '임신성 당뇨식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024118',
+ '유방암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024119',
+ '윌슨병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024120',
+ '위암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024121',
+ '위식도역류질환식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024122',
+ '위궤양식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024124',
+ '열량조절식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000022776',
+ '알콜성간질환식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024131',
+ '십이지장궤양식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024141',
+ '심근경색식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024136',
+ '신증후군식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024137',
+ '식중독식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024133',
+ '식도정맥류식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024140',
+ '식도염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024139',
+ '식도암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024142',
+ '셀리악병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024146',
+ '섭식장애식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024144',
+ '사구체신염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024147',
+ '빈혈식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024148',
+ '복막염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024150',
+ '변비식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024151',
+ '바이러스성 간염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024152',
+ '말기신질환식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024153',
+ '만성신부전식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024157',
+ '만성담낭염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024196',
+ '만성 췌장염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024156',
+ '덤핑증후군식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024158',
+ '대장암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024159',
+ '대사증후군식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024164',
+ '당원병식/당원축적병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024160',
+ '당뇨병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024163',
+ '담낭암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024168',
+ '단장증후군식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024166',
+ '급성췌장염식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024174',
+ '급성신부전식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024179',
+ '구루병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024180',
+ '골다공증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024181',
+ '고혈압식 / 폐성 고혈압식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024182',
+ '고지혈증식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024183',
+ '갑상선암식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024188',
+ '갑상선기능항진증': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024189',
+ '갑상선기능저하증': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024190',
+ '간이식후식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024191',
+ '간성혼수식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024193',
+ '간경화식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024192',
+ '각기병식': 'http://www.amc.seoul.kr/asan/file/imageView.do?fileId=F000000024194'}
     nameList = list(disease.keys())
     nameList = sorted(nameList)
     return render_template('recipe-tag-index.html', disease=disease, nameList=nameList)
@@ -299,6 +267,7 @@ def query():
 
                 disease=[]
                 disease.append(getDisease(data[0])) # 질병정보 읽어오기
+                print('disease : ', disease)
 
 
 
@@ -340,7 +309,7 @@ def query():
                 disease = []
                 for name in data:
                     disease.append(getDisease(name))  # 질병정보 읽어오기
-                # print('disease : ', disease)
+                print('disease : ', disease)
 
 
 
@@ -373,20 +342,20 @@ def query():
                 # print(q)
 
                 if insert and remove:
-                    print('insert and remove')
+                    print('insert and remove selected')
                     temp = selectIngre(insert, remove, q)
                     if temp:
                         print('temp', temp)
                         q = temp
                 elif insert:
-                    print('insert')
-                    temp = selectIngre(insert, "", q)
+                    print('insert selected')
+                    temp = selectIngre(insert, None, q)
                     if temp:
                         print('temp', temp)
                         q = temp
                 elif remove:
-                    print('remove')
-                    temp = selectIngre("", remove, q)
+                    print('remove selected')
+                    temp = selectIngre(None, remove, q)
                     if temp:
                         print('temp', temp)
                         q = temp

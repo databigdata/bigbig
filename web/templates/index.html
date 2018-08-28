@@ -76,7 +76,7 @@
 
 
             <div class='container'>
-                <div class="row rw-row subtle">
+                <div class="row rw-row subtle" style="padding:35px">
                     <form name="myForm" method="POST" action="{{ url_for('query') }}">
                         <div class="form-group">
                             <input type="text" class="hidden" style="display: none" name="order" value="recommend"/>
@@ -102,16 +102,16 @@
 
                     <!-- TODO 검색바 -->
 
-                    <form class='form-horizontal col-8' role='form' name='find' method="POST"
+                    <form class='form-horizontal col-9' role='form' name='find' style="padding-right: 0px" method="POST"
                           action={{ url_for("query") }}>
-                        <div class='form-group row rw-row'>
+                        <div class='form-group row rw-row' style="padding:0px">
                             <div class='col-9'>
                                 <input class='form-control input-lg js-tag-input' id='tag-input-33'
                                        placeholder='먹고 싶은 음식을 입력하세요' type='text' name="food">
                             </div>
                             <div class='col-3'>
                                 <submit class='btn btn-primary btn-lg btn-block' type='submit'>
-                                    Send
+                                    검색
                                 </submit>
                             </div>
                         </div>
@@ -120,7 +120,7 @@
             </div>
 
             <!-- Main content -->
-            <div class="rw-section rw-container right-sidebar">
+            <div class="rw-section rw-container right-sidebar"style="padding:35px">
                 <!-- TODO 여기다가 히트맵 추가 -->
             {% if img_rul != "" %}
                     {% if dname %}
@@ -129,7 +129,8 @@
                         <h4>{{ dname1 }} / {{ dname2 }}에 대한 선택한 음식별 평균 추천지수 비교</h4>
                     {% endif %}
 
-                <div class="rw-column">
+                    <div class="card-row" style="display:flex">
+                <div class="rw-column" style="margin-right:15px">
                     <img src="data:image/jpeg;base64, {{ img_url }}" style="width:480px; height:360px">
                 </div>
             {% endif %}
@@ -147,8 +148,13 @@
                         {% endfor %}
                     {% endfor %}
                 </div>
-
+                </div>
             </div>
+            <script>
+                $('.card-row > div:first').css('', "15px");
+                $('.rw-section.rw-container.right-sidebar').css('padding', "35px");
+                $('.card-row').css('display', "flex");
+            </script>
             <div class="rw-column rw-content">
                 <div class="rw-row subtle large border-tb" style="text-align: center">
 

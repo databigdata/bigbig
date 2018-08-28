@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../static/assets/css/bootstrap-tokenfield.css"/>
     <link rel='stylesheet' href='https://sliptree.github.io/bootstrap-tokenfield/dist/css/tokenfield-typeahead.css'>
     <link rel="stylesheet" href="../static/assets/css/bootstrap.css"/>
-        <link rel="icon" href="../static/assets/images/patterns/food.png">
+    <link rel="icon" href="../static/assets/images/patterns/food.png">
 
 
     <!--[if lt IE 9]>
@@ -77,225 +77,279 @@
     <div class="rw-container rw-section">
         <div class="rw-inner clearfix">
 
-            <br>
-            <br>
+
             <!-- Main content -->
 
-            <div class="row rw-row subtle large">
+            <div class="row rw-row subtle large"
+                 style="border:10px solid;padding-right: 0px;padding-left: 0px;margin-right: 0px;margin-left: 0px;padding-top: 0px;padding-bottom: 0px;">
 
-                <div class="col-2 text-light bg-dark">
+                <div class="col-2 text-light bg-dark" style="padding-top:25px">
                     {% if dname %}
-                        <h4 class="text-center" style="margin-top:30px">{{ dname }}</h4>
+                        <h4 class="text-center">{{ dname }}</h4>
                     {% else %}
-                        <h4 class="text-center" style="margin-top:30px">{{ dname1 }}</h4>
+                        <h4 class="text-center">{{ dname1 }}</h4>
                     {% endif %}
                 </div>
-                <div class="col-2 text-light bg-dark text-center"><h4>권장식품</h4><br><h4>주의식품</h4></div>
-                <div class="col-8">
-                    {% if dname %}
-                        {% for i in recommend %}
-                            <a class="reco" href="#" style="font-size: x-large"> {{ i +' ' }} </a>
-                        {% endfor %}
-                    {% else %}
-                        {% for i in recommend1 %}
-                            <a class="reco" href="#" style="font-size: x-large"> {{ i +' ' }} </a>
-                        {% endfor %}
-                    {% endif %}
 
-                    <br><br>
+                <div class="col-10" style="    padding-left: 0px;    padding-right: 0px;">
+                    <div class="col-12 row" style="   padding-left: 0px;    padding-right: 0px;    margin-right: 0px;    margin-left: 0px;">
 
-                    {% if dname %}
-                        {% for i in caution %}
-                            <a class="cau" href="#" style="font-size: x-large"> {{ i +' ' }} </a>
-                        {% endfor %}
-                    {% else %}
-                        {% for i in caution1 %}
-                            <a class="cau" href="#" style="font-size: x-large"> {{ i +' ' }} </a>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
-            {% if recommend2 %}
-                <div class="row rw-row subtle large">
-                    <div class="col-2 text-light bg-dark"><h4 class="text-center"
-                                                              style="margin-top:30px">{{ dname2 }}</h4></div>
-                    <div class="col-2 text-light bg-dark text-center"><h4>권장식품</h4><br><h4>주의식품</h4></div>
-                    <div class="col-8">
-                        {% for i in recommend2 %}
-                            <a class="reco" href="#" style="font-size: x-large"> {{ i +' ' }} </a>
-                        {% endfor %}
-
-                        <br><br>
-                        {% for i in caution2 %}
-                            <a class="cau" href="#" style="font-size: x-large"> {{ i +' ' }} </a>
-                        {% endfor %}
-
-                    </div>
-                </div>
-            {% endif %}
-
-            <div class="row rw-row subtle large">
-                <div class="row rw-row subtle large">
-
-                    <form name="myForm" method="POST" action="{{ url_for('query') }}">
-                        <div class="form-group">
-                            <input type="text" class="hidden" style="display: none" name="order" value="recommend"/>
-                            <button class="btn-primary" id="recommend" type="submit">권장률순</button>
-                        </div>
-                    </form>
-                    <form name="myForm" method="POST" action="{{ url_for('query') }}">
-                        <div class="form-group">
-                            <input type="text" class="hidden" style="display: none" name="order" value="caution"/>
-                            <button class="btn-primary" id="caution" type="submit">위험률순</button>
-                        </div>
-                    </form>
-                    <form name="myForm" method="POST" action="{{ url_for('query') }}">
-                        <div class="form-group">
-                            <input type="text" class="hidden" style="display: none" name="order" value="rc"/>
-                            <button class="btn-primary" id="rc" type="submit">추천지수순</button>
-                        </div>
-                    </form>
-
-                </div>
-
-                <div class='container'>
-
-                    <form class='form-horizontal col-12' role='form' name='find' method="POST"
-                          action={{ url_for("query") }}>
-                        <div class='form-group row rw-row'
-                             style="margin-bottom: 0px; padding-bottom: 0px; padding-top: 0px;">
-                            <h6 class="col-2">꼭 넣어야하는 식품</h6>
-                            <div class='col-9'>
-                                <input class='form-control input-lg js-tag-input' id='tag-input-33'
-                                       placeholder='꼭 넣을 식품' type='text' name="insert">
-                            </div>
-                            <div class='col-1'>
-                                <submit class='btn btn-primary btn-lg btn-block' style="display: none" type='submit'>
-                                    Send
-                                </submit>
-                            </div>
-                        </div>
-                        <div class="'form-group row rw-row"
-                             style="margin-bottom: 0px; padding-bottom: 0px; padding-top: 0px;">
-                            <h6 class="col-2">꼭 빼야하는 식품</h6>
-                            <div class='col-9'>
-                                <input class='form-control input-lg js-tag-input' id='tag-input'
-                                       placeholder='꼭 뺄 식품' type='text' name="remove">
-                            </div>
-                            <div class='col-1'>
-                                <submit class='btn btn-primary btn-md btn-block' type='submit'>
-                                    Send
-                                </submit>
-                            </div>
-                        </div>
-
-
-                    </form>
-
-                </div>
-
-            </div>
-
-            <div class="rw-column rw-content">
-
-                <div class="rw-row subtle large border-tb" style="text-align: center">
-
-                    <div class="grid-container carousel-container">
-
-                        <div class="grid desk-6 mob-6">
-                            <h4 class="carousel-posts-heading">추천 레시피</h4>
-                        </div>
-
-                        <div class="clear"></div>
-
-                        <!-- 메뉴 TODO 메뉴-->
-                        {% set src = ["../static/assets/placeholder/food/350x240/18.jpg", "../static/assets/placeholder/food/350x240/1.jpg", "../static/assets/placeholder/food/350x240/4.jpg", "../static/assets/placeholder/food/350x240/5.jpg", "../static/assets/placeholder/food/350x240/9.jpg"] %}
-                        <!-- TODO 메뉴 목록 만들기 참조 (1페이지에 20개, 각 행에 4개씩 5행)-->
-                        <!-- 한행에 다 보여주려면 맨 바깥 for는 필요 없음 -->
-
-                        <!-- "&{aaa};" -->
-
-                        {% for i in range(5) %}
-                            {#                            <h1>{{ pageNum }}</h1>#}
-                            <div class="home-carousel-posts clearfix"> <!-- 한 행을 구성하는 div 클래스 -->
-                                <!-- loop.index는 현제 루프가 몇번째인지 알려줌 1,2,.... -->
-
-                                <!-- 1 | int 는 1을 int로 취급하게 함. (경우에 따라 안하면 문자열로 인식함) -->
-
-                                <!-- data는 계산된 지수들을 가지고 있는 딕셔너리,
-                                     rate는 계산된 지수를 오름/내림 차순 정렬한 음식명 리스트 || 특정 음식만 검색한 결과에 대한 오름/내림 차순
-                                     menu는 음식명 -->
-                                <!-- (((page-1)*5)+(index-1)) * 4: (((page-1)*5)+(index)) * 4  -->
-                                {#                             <h1>start {{ (((pageNum|int-(1|int))*5)+((loop.index | int)-(1|int))) * 4 }}</h1>#}
-                                {#                                <h1>end {{ (((pageNum|int-(1|int))*5)+((loop.index | int))) * 4 }}</h1>#}
-                                {% for menu in rate[  (((pageNum|int-(1|int))*5)+((loop.index | int)-(1|int))) * 4 : (((pageNum|int-(1|int))*5)+((loop.index | int))) * 4] %}
-
-                                    <!-- Entry 한행에 들어갈 메뉴들 개수에 따라서 4개를 초과하면 좌우 스크롤이 가능 -->
-                                    <div class="entry style-columns">
-                                        <div class="entry-photo"> <!-- 사진 -->
-{#                                            <img src={{ src[i] }} alt=""/>#}
-                                             {% for j in recipe %}
-                                                {% if j['food_name'] == menu %}
-{#                                                    <h1>{{ j['img'] | length }}</h1>#}
-                                                    <img src="{{ j['img'] }}" style="width:240px; height:180px;" alt=""/>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </div>
-
-                                        <div class="entry-title" style="height:3.6em; overflow : hidden"> <!-- 메뉴 제목 -->
-                                            <a name='menu' href='recipe?value={{ menu }}'>{{ menu }}</a>
-                                        </div>
-
-{#                                        <div class="entry-content"> <!-- 세부 내용 -->#}
-                                            {#                                            {{ menu }}#}
-                                            {#                                            {{ data[menu] }}#}
-                                            {#                                            <br>#}
-{#                                            <div class="p-3 mb-2 bg-success text-white">{{ (data[menu]['권장률'] * 100 ),"%" }}</div>#}
-{#                                            <div class="p-3 mb-2 bg-danger text-white">{{ (data[menu]['위험률'] * 100),"%" }}</div>#}
-{#                                            <div class="p-3 mb-2 bg-primary text-white">{{ (data[menu]['추천지수'] * 100 ), "%" }}</div>#}
-
-{#                                        </div>#}
-
-                                        <div class="row entry-content" style="margin-right: 5px">
-                                                <div class="col-4 mb-2 bg-success text-white">권장률
-                                                    ({{ '%0.2f' % (data[menu]['권장률'] * 100) |float }}%)
-                                                </div>
-                                                <div class="col-4  mb-2 bg-danger text-white">위험률
-                                                    ({{ '%0.2f' % (data[menu]['위험률'] * 100) |float }}%)
-                                                </div>
-                                                <div class="col-4  mb-2 bg-primary text-white" style="font-size: 14px">
-                                                    추천지수 ({{ '%0.2f' % (data[menu]['추천지수'] * 100) |float }}%)
-                                                </div>
-                                        </div>
-
-
-{#                                        <div class="entry-controls">#}
-{#                                            <a href="#" class="control entry-to-favorites" title="Add to favorites">#}
-{#                                                <i#}
-{#                                                        class="fa fa-heart-o"></i> </a><span#}
-{#                                                class="control-tip">24</span>#}
-{#                                            <a href="#" class="control entry-like" title="I like this!"> <i#}
-{#                                                    class="fa fa-thumbs-o-up"></i> </a> <span#}
-{#                                                class="control-tip">115</span>#}
-{#                                        </div>#}
-                                    </div> <!-- .entry -->
-
+                        <div class="col-2 text-light bg-dark text-center"><h4>권장식품</h4></div>
+                        <div class="col-10" style="border:1px solid;padding-right: 0px;padding-left: 0px;">
+                            {% if dname %}
+                                {% for i in recommend %}
+                                    <a class="reco" href="#" style="font-size: x-large"> {{ i +' ' }} </a>
                                 {% endfor %}
-                            </div> <!-- .home-carousel-posts -->
-                        {% endfor %}
-
+                            {% else %}
+                                {% for i in recommend1 %}
+                                    <a class="reco" href="#" style="font-size: x-large"> {{ i +' ' }} </a>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
 
                     </div>
-                    <div class="text-center" style="display: inline-block">
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination" id="pagination"></ul>
-                        </nav>
-                    </div>
 
+
+                    <div class="col-12 row" style="    padding-left: 0px;    padding-right: 0px;    margin-right: 0px;    margin-left: 0px;">
+
+                        <div class="col-2 text-light bg-dark text-center"><h4>주의식품</h4></div>
+                        <div class="col-10" style="border:1px solid;padding-right: 0px;padding-left: 0px;">
+                            {% if dname %}
+                                {% for i in caution %}
+                                    <a class="cau" href="#" style="font-size: x-large"> {{ i +' ' }} </a>
+                                {% endfor %}
+                            {% else %}
+                                {% for i in caution1 %}
+                                    <a class="cau" href="#" style="font-size: x-large"> {{ i +' ' }} </a>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                    </div>
                 </div>
-            </div> <!-- .rw-row -->
+            </div>
+
+            {% if recommend2 %}
+
+                <div class="row rw-row subtle large"
+                     style="border:10px solid;padding-right: 0px;padding-left: 0px;margin-right: 0px;margin-left: 0px;padding-top: 0px;padding-bottom: 0px;">
+
+                    <div class="col-2 text-light bg-dark" style="padding-top:25px">
+                        <h4 class="text-center">{{ dname2 }}</h4>
+                    </div>
+
+                    <div class="col-10" style="    padding-left: 0px;    padding-right: 0px;">
+                        <div class="col-12 row" style="    padding-left: 0px;    padding-right: 0px;    margin-right: 0px;    margin-left: 0px;">
+
+                            <div class="col-2 text-light bg-dark text-center"><h4>권장식품</h4></div>
+                            <div class="col-10" style="border:1px solid;padding-right: 0px;padding-left: 0px;">
+                                {% for i in recommend1 %}
+                                    <a class="reco" href="#" style="font-size: x-large"> {{ i +' ' }} </a>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-12 row" style="    padding-left: 0px;    padding-right: 0px;    margin-right: 0px;    margin-left: 0px;">
+
+                            <div class="col-2 text-light bg-dark text-center"><h4>주의식품</h4></div>
+                            <div class="col-10" style="border:1px solid;padding-right: 0px;padding-left: 0px;">
+                                {% for i in caution1 %}
+                                    <a class="cau" href="#" style="font-size: x-large"> {{ i +' ' }} </a>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                {#                <div class="row rw-row subtle large " style="border:10px solid;padding-right: 0px;padding-left: 0px;">#}
+                {#                    <div class="col-2 text-light bg-dark"><h4 class="text-center"#}
+                {#                                                              style="margin-top:30px">{{ dname2 }}</h4></div>#}
+                {#                    <div class="col-2 text-light bg-dark text-center"><h4>권장식품</h4><br><h4>주의식품</h4></div>#}
+                {#                    <div class="col-8" style="border:1px solid;padding-right: 0px;padding-left: 0px;">#}
+                {#                        <div style="border:1px solid">#}
+                {#                            {% for i in recommend2 %}#}
+                {#                                <a class="reco" href="#" style="font-size: x-large"> {{ i +' ' }} </a>#}
+                {#                            {% endfor %}#}
+                {#                        </div>#}
+                {#                        <br>#}
+                {#                        <div style="border:1px solid">#}
+                {##}
+                {#                            {% for i in caution2 %}#}
+                {#                                <a class="cau" href="#" style="font-size: x-large"> {{ i +' ' }} </a>#}
+                {#                            {% endfor %}#}
+                {#                        </div>#}
+                {##}
+                {#                    </div>#}
+                {#                </div>#}
+            {% endif %}
+        </div>
+        <div class="row rw-row subtle large" style="   padding-bottom: 0px;">
+
+            <div class='container'>
+
+                <form class='form-horizontal col-12' role='form' name='find' method="POST"
+                      action={{ url_for("query") }}>
+                    <div class='form-group row rw-row'
+                         style="margin-bottom: 0px; padding-bottom: 0px; padding-top: 0px;">
+                        <h6 class="col-2">꼭 넣어야하는 식품</h6>
+                        <div class='col-9'>
+                            <input class='form-control input-lg js-tag-input' id='tag-input-33'
+                                   placeholder='꼭 넣을 식품' type='text' name="insert">
+                        </div>
+                        <div class='col-1'>
+                            <submit class='btn btn-primary btn-lg btn-block' style="display: none" type='submit'>
+                                검색
+                            </submit>
+                        </div>
+                    </div>
+                    <div class="'form-group row rw-row"
+                         style="margin-bottom: 0px; padding-bottom: 0px; padding-top: 0px;">
+                        <h6 class="col-2">꼭 빼야하는 식품</h6>
+                        <div class='col-9'>
+                            <input class='form-control input-lg js-tag-input' id='tag-input'
+                                   placeholder='꼭 뺄 식품' type='text' name="remove">
+                        </div>
+                        <div class='col-1'>
+                            <submit class='btn btn-primary btn-md btn-block' type='submit'>
+                                Send
+                            </submit>
+                        </div>
+                    </div>
+
+
+                </form>
+
+            </div>
+                        <div class="row rw-row subtle large" style="    padding-bottom: 0px;    padding-top: 0px;">
+
+                <form name="myForm" method="POST" action="{{ url_for('query') }}">
+                    <div class="form-group">
+                        <input type="text" class="hidden" style="display: none" name="order" value="recommend"/>
+                        <button class="btn-primary" id="recommend" type="submit">권장률순</button>
+                    </div>
+                </form>
+                <form name="myForm" method="POST" action="{{ url_for('query') }}">
+                    <div class="form-group">
+                        <input type="text" class="hidden" style="display: none" name="order" value="caution"/>
+                        <button class="btn-primary" id="caution" type="submit">위험률순</button>
+                    </div>
+                </form>
+                <form name="myForm" method="POST" action="{{ url_for('query') }}">
+                    <div class="form-group">
+                        <input type="text" class="hidden" style="display: none" name="order" value="rc"/>
+                        <button class="btn-primary" id="rc" type="submit">추천지수순</button>
+                    </div>
+                </form>
+
+            </div>
 
         </div>
+
+        <div class="rw-column rw-content">
+
+            <div class="rw-row subtle large border-tb" style="text-align: center">
+
+                <div class="grid-container carousel-container">
+
+                    <div class="grid desk-6 mob-6">
+                        <h4 class="carousel-posts-heading">추천 레시피</h4>
+                    </div>
+
+                    <div class="clear"></div>
+
+                    <!-- 메뉴 TODO 메뉴-->
+                    {% set src = ["../static/assets/placeholder/food/350x240/18.jpg", "../static/assets/placeholder/food/350x240/1.jpg", "../static/assets/placeholder/food/350x240/4.jpg", "../static/assets/placeholder/food/350x240/5.jpg", "../static/assets/placeholder/food/350x240/9.jpg"] %}
+                    <!-- TODO 메뉴 목록 만들기 참조 (1페이지에 20개, 각 행에 4개씩 5행)-->
+                    <!-- 한행에 다 보여주려면 맨 바깥 for는 필요 없음 -->
+
+                    <!-- "&{aaa};" -->
+
+                    {% for i in range(5) %}
+                        {#                            <h1>{{ pageNum }}</h1>#}
+                        <div class="home-carousel-posts clearfix"> <!-- 한 행을 구성하는 div 클래스 -->
+                            <!-- loop.index는 현제 루프가 몇번째인지 알려줌 1,2,.... -->
+
+                            <!-- 1 | int 는 1을 int로 취급하게 함. (경우에 따라 안하면 문자열로 인식함) -->
+
+                            <!-- data는 계산된 지수들을 가지고 있는 딕셔너리,
+                                 rate는 계산된 지수를 오름/내림 차순 정렬한 음식명 리스트 || 특정 음식만 검색한 결과에 대한 오름/내림 차순
+                                 menu는 음식명 -->
+                            <!-- (((page-1)*5)+(index-1)) * 4: (((page-1)*5)+(index)) * 4  -->
+                            {#                             <h1>start {{ (((pageNum|int-(1|int))*5)+((loop.index | int)-(1|int))) * 4 }}</h1>#}
+                            {#                                <h1>end {{ (((pageNum|int-(1|int))*5)+((loop.index | int))) * 4 }}</h1>#}
+                            {% for menu in rate[  (((pageNum|int-(1|int))*5)+((loop.index | int)-(1|int))) * 4 : (((pageNum|int-(1|int))*5)+((loop.index | int))) * 4] %}
+
+                                <!-- Entry 한행에 들어갈 메뉴들 개수에 따라서 4개를 초과하면 좌우 스크롤이 가능 -->
+                                <div class="entry style-columns">
+                                    <div class="entry-photo"> <!-- 사진 -->
+                                        {#                                            <img src={{ src[i] }} alt=""/>#}
+                                        {% for j in recipe %}
+                                            {% if j['food_name'] == menu %}
+                                                {#                                                    <h1>{{ j['img'] | length }}</h1>#}
+                                                <img src="{{ j['img'] }}" style="width:240px; height:180px;"
+                                                     alt=""/>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="entry-title" style="height:3.6em; overflow : hidden"> <!-- 메뉴 제목 -->
+                                        <a name='menu' href='recipe?value={{ menu }}'>{{ menu }}</a>
+                                    </div>
+
+                                    {#                                        <div class="entry-content"> <!-- 세부 내용 -->#}
+                                    {#                                            {{ menu }}#}
+                                    {#                                            {{ data[menu] }}#}
+                                    {#                                            <br>#}
+                                    {#                                            <div class="p-3 mb-2 bg-success text-white">{{ (data[menu]['권장률'] * 100 ),"%" }}</div>#}
+                                    {#                                            <div class="p-3 mb-2 bg-danger text-white">{{ (data[menu]['위험률'] * 100),"%" }}</div>#}
+                                    {#                                            <div class="p-3 mb-2 bg-primary text-white">{{ (data[menu]['추천지수'] * 100 ), "%" }}</div>#}
+
+                                    {#                                        </div>#}
+
+                                    <div class="row entry-content" style="margin-right: 5px">
+                                        <div class="col-4 mb-2 bg-success text-white">권장률
+                                            ({{ '%0.2f' % (data[menu]['권장률'] * 100) |float }}%)
+                                        </div>
+                                        <div class="col-4  mb-2 bg-danger text-white">위험률
+                                            ({{ '%0.2f' % (data[menu]['위험률'] * 100) |float }}%)
+                                        </div>
+                                        <div class="col-4  mb-2 bg-primary text-white" style="font-size: 14px">
+                                            추천지수 ({{ '%0.2f' % (data[menu]['추천지수'] * 100) |float }}%)
+                                        </div>
+                                    </div>
+
+
+                                    {#                                        <div class="entry-controls">#}
+                                    {#                                            <a href="#" class="control entry-to-favorites" title="Add to favorites">#}
+                                    {#                                                <i#}
+                                    {#                                                        class="fa fa-heart-o"></i> </a><span#}
+                                    {#                                                class="control-tip">24</span>#}
+                                    {#                                            <a href="#" class="control entry-like" title="I like this!"> <i#}
+                                    {#                                                    class="fa fa-thumbs-o-up"></i> </a> <span#}
+                                    {#                                                class="control-tip">115</span>#}
+                                    {#                                        </div>#}
+                                </div> <!-- .entry -->
+
+                            {% endfor %}
+                        </div> <!-- .home-carousel-posts -->
+                    {% endfor %}
+
+
+                </div>
+                <div class="text-center" style="display: inline-block">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination" id="pagination"></ul>
+                    </nav>
+                </div>
+
+            </div>
+        </div> <!-- .rw-row -->
+
+    </div>
 
     </div> <!-- .rw-inner -->
     </div> <!-- .rw-container -->
@@ -415,9 +469,9 @@
     $(function () {
         if (window.pagObj == undefined) {
 
-              var total = {{ (((rate|length)|int)/20)|int }};
+            var total = {{ (((rate|length)|int)/20)|int }};
 
-            if(parseInt(gpage) > parseInt(total))
+            if (parseInt(gpage) > parseInt(total))
                 total = gpage;
 
 
