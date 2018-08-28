@@ -161,7 +161,7 @@ def query(dname1):  # 질병 하나 계싼
 
 def temp(dname1, dname2):  # 질병 두개 계싼
     print('temp.start')
-    db = connection.recipeDB2
+    db = connection.recipeDB3
     recipe = db.recipe
     food = db.food
     disease = db.disease
@@ -231,7 +231,7 @@ def temp(dname1, dname2):  # 질병 두개 계싼
                             bul_count = bul_count + 1
                             break
         # print('temp for end')
-
+        print('totlalen : ' , total_leng)
         try:
             p = ho_count / total_leng
             nl.append(p)
@@ -276,7 +276,10 @@ def getRecipe(fname):  # 특정 메뉴의 데이터를 읽어옴 single-recipe�
     data = recipe.find({'food_name': {'$eq': fname}})
     # print(data)
     # print(data.count())
-    data = data.next()
+    try:
+        data = data.next()
+    except :
+        data = {"_id":"5b83590d0621b147a85f81d7","food_name":fname,"img":"http://krcdn.ar-cdn.com/recipes/xlarge/default.jpg","ingredient":[],"description":[]}
     # print(data)
     return data
 
