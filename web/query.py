@@ -231,7 +231,7 @@ def temp(dname1, dname2):  # 질병 두개 계싼
                             bul_count = bul_count + 1
                             break
         # print('temp for end')
-        print('totlalen : ' , total_leng)
+        # print('totlalen : ' , total_leng)
         try:
             p = ho_count / total_leng
             nl.append(p)

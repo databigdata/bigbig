@@ -161,6 +161,8 @@ def getHeatmap(dname1, dname2, dic3, fnames):
 
     print(plot_url)
     img.close()
+    import matplotlib.pyplot as plt
+    plt.close()
     del(img)
     del(fig)
     del(ax)
