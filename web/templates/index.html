@@ -75,7 +75,49 @@
         <div class="rw-inner clearfix">
 
 
-            <div class='container'>
+
+            <!-- Main content -->
+            <div class="rw-section rw-container right-sidebar"style="padding:35px">
+                <!-- TODO 여기다가 히트맵 추가 -->
+            {% if img_rul != "" %}
+                    {% if dname %}
+                        <h4>{{ dname }} 에 대한 선택한 음식별 평균 추천지수 비교</h4>
+                    {% elif dname1 %}
+                        <h4>{{ dname1 }} / {{ dname2 }}에 대한 선택한 음식별 평균 추천지수 비교</h4>
+                    {% endif %}
+
+                    <div class="card-row" style="display:flex">
+                <div class="rw-column" style="margin-right:15px">
+                {% if img_url != "" %}
+                    <img src="data:image/jpeg;base64, {{ img_url }}" style="width:480px; height:360px">
+                    {% else %}
+                    <div style="width:480px; height:360px"></div>
+                    {% endif %}
+                </div>
+            {% endif %}
+                <div class="rw-column">
+                    {% for item in disease %}
+                        {% for k, v in item.items() %}
+                            <h4>{{ k }}</h4>
+                            <h6>식사요법의 실제 <br>
+                            {% for i in v['식사요법의 실제'].replace('\n','').split('\r') %}
+                                {{ i }}<br>
+                            {% endfor %}
+                            </h6>
+                            <br>
+                            <h6>그 외 주의사항 : {{ v['그 외 주의사항'] }}</h6>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                </div>
+            </div>
+            <script>
+                $('.card-row > div:first').css('', "15px");
+                $('.rw-section.rw-container.right-sidebar').css('padding', "35px");
+                $('.card-row').css('display', "flex");
+            </script>
+
+                        <div class='container'>
                 <div class="row rw-row subtle" style="padding:35px">
                     <form name="myForm" method="POST" action="{{ url_for('query') }}">
                         <div class="form-group">
@@ -119,42 +161,8 @@
                 </div>
             </div>
 
-            <!-- Main content -->
-            <div class="rw-section rw-container right-sidebar"style="padding:35px">
-                <!-- TODO 여기다가 히트맵 추가 -->
-            {% if img_rul != "" %}
-                    {% if dname %}
-                        <h4>{{ dname }} 에 대한 선택한 음식별 평균 추천지수 비교</h4>
-                    {% elif dname1 %}
-                        <h4>{{ dname1 }} / {{ dname2 }}에 대한 선택한 음식별 평균 추천지수 비교</h4>
-                    {% endif %}
 
-                    <div class="card-row" style="display:flex">
-                <div class="rw-column" style="margin-right:15px">
-                    <img src="data:image/jpeg;base64, {{ img_url }}" style="width:480px; height:360px">
-                </div>
-            {% endif %}
-                <div class="rw-column">
-                    {% for item in disease %}
-                        {% for k, v in item.items() %}
-                            <h4>{{ k }}</h4>
-                            <h6>식사요법의 실제 <br>
-                            {% for i in v['식사요법의 실제'].replace('\n','').split('\r') %}
-                                {{ i }}<br>
-                            {% endfor %}
-                            </h6>
-                            <br>
-                            <h6>그 외 주의사항 : {{ v['그 외 주의사항'] }}</h6>
-                        {% endfor %}
-                    {% endfor %}
-                </div>
-                </div>
-            </div>
-            <script>
-                $('.card-row > div:first').css('', "15px");
-                $('.rw-section.rw-container.right-sidebar').css('padding', "35px");
-                $('.card-row').css('display', "flex");
-            </script>
+
             <div class="rw-column rw-content">
                 <div class="rw-row subtle large border-tb" style="text-align: center">
 
